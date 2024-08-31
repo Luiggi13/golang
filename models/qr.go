@@ -3,7 +3,7 @@ package models
 import "github.com/gofiber/fiber/v2"
 
 type QrInput struct {
-	Url string `json:"url"`
+	URLString string `json:"url" validate:"required,url"`
 }
 
 type RequestMethod string

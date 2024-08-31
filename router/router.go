@@ -22,7 +22,6 @@ func CreateRoutes(app *fiber.App) {
 	})
 	v1.Get("/health", health)
 	v1.Post("/qr/", createQr)
-	v1.Post("/qr2", testQr)
 
 }
 
@@ -33,8 +32,4 @@ func health(c *fiber.Ctx) error {
 
 func createQr(c *fiber.Ctx) error {
 	return c.JSON(m.CreateQrCode(c))
-}
-
-func testQr(c *fiber.Ctx) error {
-	return c.JSON(m.CreateTestQrCode(c))
 }
