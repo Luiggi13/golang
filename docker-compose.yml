@@ -1,0 +1,25 @@
+version: '3.9'
+services:
+  app:
+    container_name: qr-api
+    environment:
+      - NAME=${NAME}
+      - DESCRIPTION=${DESCRIPTION}
+      - LANGUAGE=${LANGUAGE}
+      - VERSION=${VERSION}
+      - ADDRESS=${ADDRESS}
+      - PORT=${PORT}
+    tty: true
+    build: .
+    ports:
+      - ${PORT}:${PORT}
+    restart: on-failure
+    volumes:
+      - .:/app
+    networks:
+      - learning
+
+# Networks to be created to facilitate communication between containers
+networks:
+  learning:
+    driver: bridge
