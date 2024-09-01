@@ -3,13 +3,12 @@ package main
 import (
 	"errors"
 	"goapi/router"
+	utils "goapi/utils"
 	"log"
 	"os"
 	"strconv"
 
 	"github.com/gofiber/fiber/v2"
-	"github.com/gofiber/fiber/v2/middleware/cors"
-	"github.com/gofiber/fiber/v2/middleware/etag"
 	"github.com/joho/godotenv"
 )
 
@@ -20,9 +19,8 @@ func main() {
 
 	// Fiber instance
 	app := fiber.New(fiber.Config{
-		AppName:        "Quick QR Code Generator",
-		ServerHeader:   "QQR",
-		RequestMethods: []string{"GET", "POST", "PUT", "DELETE", "HEAD"},
+		AppName:      "Quick QR Code Generator",
+		ServerHeader: "QQR",
 		ErrorHandler: func(ctx *fiber.Ctx, err error) error {
 			code := fiber.StatusInternalServerError
 			var e *fiber.Error
@@ -35,16 +33,7 @@ func main() {
 			})
 		},
 	})
-	app.Use(cors.New())
-	app.Use(cors.New(cors.Config{
-		AllowOrigins: "*",
-		AllowHeaders: "*",
-	}))
-
-	app.Use(etag.New())
-	app.Use(etag.New(etag.Config{
-		Weak: true,
-	}))
+	utils.Middlewares(app)
 	// Setup App Routes
 	router.CreateRoutes(app)
 
