@@ -22,9 +22,7 @@ func CreateQrCode(c *fiber.Ctx) interface{} {
 	var inputUrl modelQR.QrInput
 
 	if err := c.BodyParser(&inputUrl); err != nil {
-		c.Status(fiber.StatusBadRequest)
-		modelQR.ApiBadRequest.Method.SetMethod(c)
-		return modelQR.ApiBadRequest
+		return c.Status(fiber.StatusBadRequest).JSON(modelQR.ApiBadRequest)
 	}
 
 	if err := validateURL(inputUrl.URLString); err != nil {
