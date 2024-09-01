@@ -8,6 +8,7 @@ import (
 	"strconv"
 
 	"github.com/gofiber/fiber/v2"
+	"github.com/gofiber/fiber/v2/middleware/cors"
 	"github.com/joho/godotenv"
 	_ "github.com/joho/godotenv/autoload"
 )
@@ -19,8 +20,8 @@ func main() {
 
 	// Fiber instance
 	app := fiber.New(fiber.Config{
-		AppName:        "A Simple Api Go Fiber",
-		ServerHeader:   "Fiber",
+		AppName:        "Apir to generetae QR for urls",
+		ServerHeader:   "QR Code 313",
 		RequestMethods: []string{"GET", "POST", "PUT", "DELETE", "HEAD"},
 		ErrorHandler: func(ctx *fiber.Ctx, err error) error {
 			code := fiber.StatusInternalServerError
@@ -34,6 +35,11 @@ func main() {
 			})
 		},
 	})
+	app.Use(cors.New())
+	app.Use(cors.New(cors.Config{
+		AllowOrigins: "*",
+		AllowHeaders: "*",
+	}))
 	// Setup App Routes
 	router.CreateRoutes(app)
 
