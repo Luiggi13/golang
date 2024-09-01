@@ -88,9 +88,14 @@ docker compose up -d
 This will start the server in a Docker container, and it will be accessible at http://127.0.0.1:8080 (or the port specified in your .env file).
 
 # Project Structure
-- main.go: The main entry point for the application.
-- router/: Contains the route definitions for the API.
-- .env: Environment variables configuration file (not included in version control).
+
+- `main.go`: The main entry point for the application.
+- `router/`: Contains the route definitions for the API.
+- `handler/`: This folder contains the core logic for handling API requests. It includes:
+  - `qrcode.go`: Contains the function `CreateQrCode` which handles the creation of QR codes based on the input URL provided in the request.
+  - `health.go`: Contains the `GetHealth` function, which is used to check the health status of the API. The `Health` struct is also defined here, representing the structure of the health check response.
+- `.env`: Environment variables configuration file (not included in version control).
+
 
 # Troubleshooting
 
