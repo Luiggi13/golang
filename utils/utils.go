@@ -1,9 +1,7 @@
 package utils
 
 import (
-	"crypto/rand"
 	"encoding/base64"
-	"encoding/hex"
 	"fmt"
 	"net/url"
 
@@ -45,10 +43,4 @@ func Middlewares(app *fiber.App) {
 	app.Use(etag.New(etag.Config{
 		Weak: true,
 	}))
-}
-
-func MakeSecrets() {
-	buf := make([]byte, 32)
-	rand.Read(buf)
-	fmt.Println(hex.EncodeToString(buf)[:32])
 }
