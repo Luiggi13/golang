@@ -9,6 +9,7 @@ import (
 
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/cors"
+	"github.com/gofiber/fiber/v2/middleware/etag"
 	"github.com/joho/godotenv"
 	_ "github.com/joho/godotenv/autoload"
 )
@@ -39,6 +40,11 @@ func main() {
 	app.Use(cors.New(cors.Config{
 		AllowOrigins: "*",
 		AllowHeaders: "*",
+	}))
+
+	app.Use(etag.New())
+	app.Use(etag.New(etag.Config{
+		Weak: true,
 	}))
 	// Setup App Routes
 	router.CreateRoutes(app)
