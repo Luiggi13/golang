@@ -29,11 +29,10 @@ func CreateQrCode(c *fiber.Ctx) interface{} {
 		return c.Status(fiber.StatusBadRequest).JSON(modelQR.ApiBadRequest)
 	}
 
-	// Generar el código QR
-	png, err3 := qrcode.Encode(inputUrl.URLString, qrcode.Highest, 1024)
-	if err3 != nil {
-		qr, _ := qrcode.Encode(inputUrl.URLString, qrcode.Highest, 1024)
-		encoded := base64.StdEncoding.EncodeToString(qr)
+	png, errEncode := qrcode.Encode(inputUrl.URLString, qrcode.Highest, 1024)
+	if errEncode != nil {
+		defaultQrCode, _ := qrcode.Encode("https://www.default-url.com", qrcode.Highest, 1024)
+		encoded := base64.StdEncoding.EncodeToString(defaultQrCode)
 		return encoded
 	} else {
 		encoded := base64.StdEncoding.EncodeToString(png)
