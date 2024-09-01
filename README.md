@@ -94,8 +94,7 @@ This will start the server in a Docker container, and it will be accessible at h
 - `handler/`: This folder contains the core logic for handling API requests. It includes:
   - `qrcode.go`: Contains the function `CreateQrCode` which handles the creation of QR codes based on the input URL provided in the request.
   - `health.go`: Contains the `GetHealth` function, which is used to check the health status of the API. The `Health` struct is also defined here, representing the structure of the health check response.
-- `.env`: Environment variables configuration file (not included in version control).
-
+- `.env`: Environment variables configuration file (not included). You can clone the `.env.template` file provided in the project and rename it to `.env`. Modify this file according to your environment and project needs, such as changing the server's address and port.
 
 # Troubleshooting
 
