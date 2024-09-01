@@ -10,6 +10,14 @@ import (
 	"github.com/skip2/go-qrcode"
 )
 
+func validateURL(urlString string) error {
+	u, err := url.ParseRequestURI(urlString)
+	if err != nil || u.Scheme == "" || u.Host == "" {
+		return fmt.Errorf("invalid URL")
+	}
+	return nil
+}
+
 func CreateQrCode(c *fiber.Ctx) interface{} {
 	var inputUrl modelQR.QrInput
 
@@ -19,13 +27,8 @@ func CreateQrCode(c *fiber.Ctx) interface{} {
 		return modelQR.ApiBadRequest
 	}
 
-	u, err2 := url.ParseRequestURI(inputUrl.URLString)
-	if err2 != nil || u.Scheme == "" || u.Host == "" {
-		fmt.Println("hay error")
-		fmt.Println(u)
-		c.Status(fiber.StatusBadRequest)
-		modelQR.ApiBadRequest.Method.SetMethod(c)
-		return modelQR.ApiBadRequest
+	if err := validateURL(inputUrl.URLString); err != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(modelQR.ApiBadRequest)
 	}
 
 	// Generar el código QR
