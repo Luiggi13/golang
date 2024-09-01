@@ -13,7 +13,7 @@ const DEFAULTURL = "https://www.default-url.com"
 func ValidateURL(urlString string) error {
 	u, err := url.ParseRequestURI(urlString)
 	if err != nil || u.Scheme == "" || u.Host == "" {
-		return fmt.Errorf("invalid URL")
+		return fmt.Errorf("invalid URL format: %s", urlString)
 	}
 	return nil
 }
