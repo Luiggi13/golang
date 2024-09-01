@@ -21,8 +21,8 @@ func main() {
 
 	// Fiber instance
 	app := fiber.New(fiber.Config{
-		AppName:        "Apir to generetae QR for urls",
-		ServerHeader:   "QR Code 313",
+		AppName:        "Quick QR Code Generator",
+		ServerHeader:   "QQR",
 		RequestMethods: []string{"GET", "POST", "PUT", "DELETE", "HEAD"},
 		ErrorHandler: func(ctx *fiber.Ctx, err error) error {
 			code := fiber.StatusInternalServerError
