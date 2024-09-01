@@ -8,6 +8,7 @@ import (
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/cors"
 	"github.com/gofiber/fiber/v2/middleware/etag"
+	"github.com/gofiber/fiber/v2/middleware/recover"
 	"github.com/skip2/go-qrcode"
 )
 
@@ -34,6 +35,7 @@ func GenerateQrCode(url string) string {
 }
 
 func Middlewares(app *fiber.App) {
+	app.Use(recover.Config{EnableStackTrace: true})
 	app.Use(cors.New(cors.Config{
 		AllowOrigins: "*",
 		AllowHeaders: "Origin, Content-Type, Accept, Authorization",
