@@ -37,3 +37,23 @@ func SetMethod(c *fiber.Ctx, p ...string) string {
 		return ApiMessagePrefix + c.Method()
 	}
 }
+
+type ErrorValidate2 struct {
+	Status     string            `json:"status"`
+	StatusCode int               `json:"status_code"`
+	Message    string            `json:"message"`
+	Details    map[string]string `json:"details,omitempty"`
+}
+
+func ErrorBadRequest(method string, url string) ErrorValidate2 {
+	details := map[string]string{
+		"method": method,
+		"url":    url,
+	}
+	return ErrorValidate2{
+		Status:     "Bad Request",
+		StatusCode: 400,
+		Message:    "Invalid url",
+		Details:    details,
+	}
+}

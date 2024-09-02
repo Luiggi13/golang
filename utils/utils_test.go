@@ -14,12 +14,12 @@ func TestValidateURL(t *testing.T) {
 	fctx := new(fasthttp.RequestCtx)
 	c := app.AcquireCtx(fctx)
 
-	validURL := ValidateURL(DEFAULTURL)
+	validURL := ValidateURL(DefaultUrl)
 	assert.Equal(t, nil, validURL)
 
-	invalidText := strings.Split(DEFAULTURL, "://")
+	invalidText := strings.Split(DefaultUrl, "://")
 	invalidURL := ValidateURL(invalidText[1])
-	assert.Equal(t, "invalid URL", invalidURL.Error())
+	assert.Equal(t, "invalid URL format", invalidURL.Error())
 
 	app.ReleaseCtx(c)
 }

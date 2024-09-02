@@ -5,6 +5,7 @@ import (
 
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/logger"
+	"github.com/gofiber/fiber/v2/middleware/monitor"
 )
 
 // CreateRoutes for fiber app
@@ -22,6 +23,7 @@ func CreateRoutes(app *fiber.App) {
 	})
 	v1.Get("/health", health)
 	v1.Post("/qr/", createQr)
+	v1.Get("/metrics", monitor.New(monitor.Config{Title: "MyService Metrics Page"}))
 
 }
 
@@ -29,7 +31,6 @@ func CreateRoutes(app *fiber.App) {
 func health(c *fiber.Ctx) error {
 	return c.JSON(m.GetHealth(c))
 }
-
 func createQr(c *fiber.Ctx) error {
 	return c.JSON(m.CreateQrCode(c))
 }
