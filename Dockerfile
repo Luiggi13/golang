@@ -11,6 +11,7 @@ RUN apk update && apk add --no-cache git && apk add --no-cach bash && apk add bu
 # Setup folders
 RUN mkdir /app
 WORKDIR /app
+RUN go install github.com/air-verse/air@latest
 
 # Copy the source from the current directory to the working Directory inside the container
 COPY . .
@@ -23,10 +24,11 @@ RUN go get -d -v ./...
 RUN go install -v ./...
 
 # Build the Go app
-RUN go build -o /build
+# RUN go build -o /build
 
 # Expose port 8080 to the outside world
 # EXPOSE 1313
 
 # Run the executable
-CMD [ "/build" ]
+# CMD [ "/build" ]
+CMD ["air", "-c", "air.toml"]
