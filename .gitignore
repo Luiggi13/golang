@@ -132,3 +132,4 @@ Temporary Items
 .vscode
 build
 __debug*
+tmp
