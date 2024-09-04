@@ -12,7 +12,7 @@ func CreateQrCode(c *fiber.Ctx) interface{} {
 	var isPremium = false
 
 	if err := c.BodyParser(&inputUrl); err != nil {
-		return c.Status(fiber.StatusBadRequest).JSON(m.ApiBadRequest)
+		return c.Status(fiber.StatusBadRequest).JSON(m.BaseError{Message: "405 Bad Request", Method: c.Method()})
 	}
 
 	if !u.IsUserProvided(inputUrl, c.Method()) {
