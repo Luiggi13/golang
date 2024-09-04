@@ -1,4 +1,4 @@
-.PHONY: all init build_docker launch_docker down_docker
+.PHONY: all init build_docker up down
 
 # Colores
 COLOR_RESET = \033[0m
@@ -20,13 +20,17 @@ launch: ## Start docker local
 build_docker: ## Build docker api
 	@echo "$(COLOR_YELLOW)Compiling Quick QR to Docker...$(COLOR_RESET)"
 	@docker compose build
-	$(MAKE) launch_docker
+	$(MAKE) up
 
-launch_docker: ## Start docker api
+up: ## Start docker api
 	@echo "$(COLOR_GREEN)Launching Quick QR into Docker...$(COLOR_RESET)"
 	@docker compose up -d
 
-down_docker: ## Stops docker api
+down: ## Stops docker api
+	@echo "$(COLOR_RED)Stopping and removing Quick QR from Docker...$(COLOR_RESET)"
+	@docker compose down
+
+downv: ## Stops docker api deleting volumes
 	@echo "$(COLOR_RED)Stopping and removing Quick QR from Docker...$(COLOR_RESET)"
 	@docker compose down -v
 
