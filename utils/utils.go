@@ -26,12 +26,10 @@ func GenerateQrCode(url string) string {
 	png, errEncode := qrcode.Encode(url, qrcode.Highest, 1024)
 	if errEncode != nil {
 		defaultQrCode, _ := qrcode.Encode(DefaultUrl, qrcode.Highest, 1024)
-		encoded := base64.StdEncoding.EncodeToString(defaultQrCode)
-		return encoded
-	} else {
-		encoded := base64.StdEncoding.EncodeToString(png)
-		return encoded
+		return base64.StdEncoding.EncodeToString(defaultQrCode)
 	}
+
+	return base64.StdEncoding.EncodeToString(png)
 }
 
 // Middlewares sets up and applies middleware functions to the Fiber app.
