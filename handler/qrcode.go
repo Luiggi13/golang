@@ -1,6 +1,7 @@
 package handler
 
 import (
+	db "goapi/database"
 	m "goapi/models"
 	u "goapi/utils"
 
@@ -18,6 +19,7 @@ import (
 // 6. If the user is authenticated and the URL is valid, it generates a QR code using the GenerateQrCode function from the utils package.
 // 7. Constructs a QrCodeGenerated struct with the user ID, status code, generated QR code, and premium status.
 // 8. Returns the constructed QrCodeGenerated struct as the response.
+
 func CreateQrCode(c *fiber.Ctx) interface{} {
 	var inputUrl m.QrInput
 	var isPremium = false
@@ -34,11 +36,17 @@ func CreateQrCode(c *fiber.Ctx) interface{} {
 		isPremium = *inputUrl.Premium
 	}
 
+	myInsert := m.InsertQrDB{
+		QrCode:  u.GenerateQrCode(inputUrl.URLString),
+		User:    inputUrl.UserId,
+		Premium: isPremium,
+	}
 	response := m.QrCodeGenerated{
 		Id:         *inputUrl.UserId,
 		StatusCode: 200,
 		QrCode:     u.GenerateQrCode(inputUrl.URLString),
 		Premium:    isPremium,
 	}
+	db.InsertQR(myInsert)
 	return response
 }
