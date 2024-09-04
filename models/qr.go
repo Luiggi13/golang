@@ -1,38 +1,14 @@
 package models
 
-type QrInput struct {
-	URLString string  `json:"url" validate:"required,url"`
-	UserId    *string `json:"userId"`
-	Premium   *bool   `json:"premium"`
-}
-
-type QrCodeGenerated struct {
-	Id         string `json:"id"`
-	StatusCode int64  `json:"status_code"`
-	QrCode     string `json:"qr_code"`
-	Premium    bool   `json:"premium" validate:"required,premium"`
-}
-
-type BaseError struct {
-	Method  string `json:"method"`
-	Message string `json:"message"`
-	Url     string `json:"url,omitempty"`
-}
-
-type CustomErrorQR CustomErrorQRElement
-
-type CustomErrorQRElement struct {
-	Status     string  `json:"status"`
-	StatusCode int64   `json:"status_code"`
-	Message    string  `json:"message"`
-	Details    Details `json:"details"`
-}
-
-type Details struct {
-	Method string `json:"method"`
-	URL    string `json:"url,omitempty"`
-}
-
+// BadRequestError creates a CustomErrorQR with status "Bad Request" and status code 400
+// from a given BaseError. It also populates the Details field of the CustomErrorQR
+// with the Method and URL (if provided) from the BaseError.
+//
+// Parameters:
+// - be: A BaseError struct containing the method and URL information.
+//
+// Returns:
+// - A CustomErrorQR struct with the specified status, status code, message, and details.
 func BadRequestError(be BaseError) CustomErrorQR {
 
 	details := Details{
