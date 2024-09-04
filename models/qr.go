@@ -67,19 +67,6 @@ type Details struct {
 	URL    string `json:"url,omitempty"`
 }
 
-// func BadRequestError(method string, url string) CustomErrorQR {
-// 	details := Details{
-// 		Method: method,
-// 		URL:    url,
-// 	}
-// 	return CustomErrorQR{
-// 		Status:     "Bad Request",
-// 		StatusCode: 400,
-// 		Message:    "Invalid url",
-// 		Details:    details,
-// 	}
-// }
-
 func BadRequestError(ue BaseError) CustomErrorQR {
 
 	details := Details{
