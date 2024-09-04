@@ -14,6 +14,19 @@ import (
 
 const DefaultUrl = "https://www.default-url.com"
 
+// ValidateURL checks if a given URL string is valid.
+//
+// The function takes a single parameter:
+//   - urlString: A string representing the URL to be validated.
+//
+// The function returns an error if the URL is invalid.
+// If the URL is valid, it returns nil.
+//
+// The function uses the url.ParseRequestURI function to parse the URL string.
+// It checks if the parsing error is not nil, or if the URL scheme or host are empty.
+// If any of these conditions are met, the function returns an error with the message "invalid URL format".
+// Otherwise, it returns nil.
+// Commit that removes ValidateURL function: 2763761832f4f93c3275c360cf81c43affeedb33
 func ValidateURL(urlString string) error {
 	u, err := url.ParseRequestURI(urlString)
 	if err != nil || u.Scheme == "" || u.Host == "" {
