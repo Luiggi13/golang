@@ -19,7 +19,7 @@ func main() {
 
 	// Fiber instance
 	app := fiber.New(fiber.Config{
-		AppName:      "Quick QR Code Generator",
+		AppName:      "Quick QR Code Generator " + os.Getenv("APIVERSION"),
 		ServerHeader: "QQR",
 		ErrorHandler: func(ctx *fiber.Ctx, err error) error {
 			code := fiber.StatusInternalServerError
