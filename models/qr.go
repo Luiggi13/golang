@@ -3,7 +3,9 @@ package models
 import "github.com/gofiber/fiber/v2"
 
 type QrInput struct {
-	URLString string `json:"url" validate:"required,url"`
+	URLString string  `json:"url" validate:"required,url"`
+	UserId    *string `json:"userId"`
+	Premium   *bool   `json:"premium"`
 }
 
 type RequestMethod string
@@ -38,22 +40,58 @@ func SetMethod(c *fiber.Ctx, p ...string) string {
 	}
 }
 
-type ErrorValidate2 struct {
-	Status     string            `json:"status"`
-	StatusCode int               `json:"status_code"`
-	Message    string            `json:"message"`
-	Details    map[string]string `json:"details,omitempty"`
+type QrCodeGenerated struct {
+	Id         string `json:"id"`
+	StatusCode int64  `json:"status_code"`
+	QrCode     string `json:"qr_code"`
+	Premium    bool   `json:"premium" validate:"required,premium"`
 }
 
-func ErrorBadRequest(method string, url string) ErrorValidate2 {
-	details := map[string]string{
-		"method": method,
-		"url":    url,
+type BaseError struct {
+	Method  string `json:"method"`
+	Message string `json:"message"`
+	Url     string `json:"url,omitempty"`
+}
+
+type CustomErrorQR CustomErrorQRElement
+
+type CustomErrorQRElement struct {
+	Status     string  `json:"status"`
+	StatusCode int64   `json:"status_code"`
+	Message    string  `json:"message"`
+	Details    Details `json:"details"`
+}
+
+type Details struct {
+	Method string `json:"method"`
+	URL    string `json:"url,omitempty"`
+}
+
+// func BadRequestError(method string, url string) CustomErrorQR {
+// 	details := Details{
+// 		Method: method,
+// 		URL:    url,
+// 	}
+// 	return CustomErrorQR{
+// 		Status:     "Bad Request",
+// 		StatusCode: 400,
+// 		Message:    "Invalid url",
+// 		Details:    details,
+// 	}
+// }
+
+func BadRequestError(ue BaseError) CustomErrorQR {
+
+	details := Details{
+		Method: ue.Method,
 	}
-	return ErrorValidate2{
+	if ue.Url != "" {
+		details.URL = ue.Url
+	}
+	return CustomErrorQR{
 		Status:     "Bad Request",
 		StatusCode: 400,
-		Message:    "Invalid url",
+		Message:    ue.Message,
 		Details:    details,
 	}
 }

@@ -3,6 +3,7 @@ package utils
 import (
 	"encoding/base64"
 	"fmt"
+	m "goapi/models"
 	"net/url"
 
 	"github.com/gofiber/fiber/v2"
@@ -43,4 +44,11 @@ func Middlewares(app *fiber.App) {
 	app.Use(etag.New(etag.Config{
 		Weak: true,
 	}))
+}
+
+func IsUserProvided(user m.QrInput, method string) bool {
+	if user.UserId == nil || *user.UserId == "" {
+		return false
+	}
+	return true
 }
