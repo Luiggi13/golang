@@ -7,6 +7,18 @@ import (
 	"github.com/gofiber/fiber/v2"
 )
 
+// CreateQrCode is a handler function that generates a QR code based on the provided URL.
+// It accepts a Fiber context (c *fiber.Ctx) and returns an interface{}.
+//
+// The function performs the following steps:
+// 1. Decodes the request body into a QrInput struct (var inputUrl m.QrInput).
+// 2. Checks if the request body contains a premium field and sets the isPremium variable accordingly.
+// 3. Validates the URL provided in the request body using the ValidateURL function from the utils package.
+// 4. Checks if the user is authenticated using the IsUserProvided function from the utils package.
+// 5. If any validation fails, it returns a 400 Bad Request response with an appropriate error message.
+// 6. If the user is authenticated and the URL is valid, it generates a QR code using the GenerateQrCode function from the utils package.
+// 7. Constructs a QrCodeGenerated struct with the user ID, status code, generated QR code, and premium status.
+// 8. Returns the constructed QrCodeGenerated struct as the response.
 func CreateQrCode(c *fiber.Ctx) interface{} {
 	var inputUrl m.QrInput
 	var isPremium = false
