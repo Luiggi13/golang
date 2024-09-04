@@ -33,18 +33,18 @@ type Details struct {
 	URL    string `json:"url,omitempty"`
 }
 
-func BadRequestError(ue BaseError) CustomErrorQR {
+func BadRequestError(be BaseError) CustomErrorQR {
 
 	details := Details{
-		Method: ue.Method,
+		Method: be.Method,
 	}
-	if ue.Url != "" {
-		details.URL = ue.Url
+	if be.Url != "" {
+		details.URL = be.Url
 	}
 	return CustomErrorQR{
 		Status:     "Bad Request",
 		StatusCode: 400,
-		Message:    ue.Message,
+		Message:    be.Message,
 		Details:    details,
 	}
 }
