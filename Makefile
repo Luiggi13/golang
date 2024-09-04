@@ -32,7 +32,8 @@ down: ## Stops docker api
 
 downv: ## Stops docker api deleting volumes
 	@echo "$(COLOR_RED)Stopping and removing Quick QR from Docker...$(COLOR_RESET)"
-	@docker compose down -v
+	@docker compose down
+	@docker rmi goapi-app
 
 test: ## Run the tests
 	@echo "$(COLOR_RED)Starting tests...$(COLOR_RESET)"
