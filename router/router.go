@@ -15,7 +15,7 @@ func CreateRoutes(app *fiber.App) {
 	// Api v1
 	v1 := api.Group("/v1")
 	v1.Get("/", func(c *fiber.Ctx) error {
-		err := c.Redirect("/api/v1/info", fiber.StatusMovedPermanently)
+		err := c.Redirect("/api/v1/health", fiber.StatusMovedPermanently)
 		if err != nil {
 			return err
 		}
