@@ -23,6 +23,7 @@ func CreateRoutes(app *fiber.App) {
 	})
 	v1.Get("/health", health)
 	v1.Post("/qr/", createQr)
+	v1.Get("/qr/", getAllQr)
 	v1.Get("/metrics", monitor.New(monitor.Config{Title: "MyService Metrics Page"}))
 
 }
@@ -33,4 +34,7 @@ func health(c *fiber.Ctx) error {
 }
 func createQr(c *fiber.Ctx) error {
 	return c.JSON(m.CreateQrCode(c))
+}
+func getAllQr(c *fiber.Ctx) error {
+	return c.JSON(m.GetAllQrCode(c))
 }
