@@ -24,3 +24,18 @@ func BadRequestError(be BaseError) CustomErrorQR {
 		Details:    details,
 	}
 }
+func NotFound(be BaseError) CustomErrorQR {
+
+	details := Details{
+		Method: be.Method,
+	}
+	if be.Url != "" {
+		details.URL = be.Url
+	}
+	return CustomErrorQR{
+		Status:     "Not Found",
+		StatusCode: 404,
+		Message:    be.Message,
+		Details:    details,
+	}
+}

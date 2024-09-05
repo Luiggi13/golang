@@ -65,3 +65,18 @@ func GetAllQrCode(c *fiber.Ctx) []m.QRStruct {
 
 	return qrList
 }
+
+func GetByIdQrCode(c *fiber.Ctx) interface{} {
+	var qr m.QRStruct
+
+	rows := db.GetById(c)
+	for rows.Next() {
+		err := rows.Scan(&qr.User, &qr.QrCode, &qr.Premium)
+
+		if err == nil {
+			return qr
+		}
+	}
+
+	return m.NotFound(m.BaseError{Message: "Non-existent user", Method: c.Method()})
+}
