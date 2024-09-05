@@ -33,8 +33,8 @@ type Details struct {
 	URL    string `json:"url,omitempty"`
 }
 
-type InsertQrDB struct {
-	QrCode  string
-	User    *string
-	Premium bool
+type QRStruct struct {
+	QrCode  string  `json:"qr_code"`
+	User    *string `json:"id"`
+	Premium bool    `json:"premium"`
 }
