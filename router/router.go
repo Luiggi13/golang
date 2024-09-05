@@ -36,5 +36,5 @@ func createQr(c *fiber.Ctx) error {
 	return c.JSON(m.CreateQrCode(c))
 }
 func getAllQr(c *fiber.Ctx) error {
-	return c.JSON(m.GetQrCode(c))
+	return c.JSON(m.GetAllQrCode(c))
 }

@@ -6,6 +6,7 @@ import (
 	u "goapi/utils"
 
 	"github.com/gofiber/fiber/v2"
+	_ "github.com/lib/pq" // add this
 )
 
 // CreateQrCode is a handler function that generates a QR code based on the provided URL.
@@ -36,7 +37,7 @@ func CreateQrCode(c *fiber.Ctx) interface{} {
 		isPremium = *inputUrl.Premium
 	}
 
-	myInsert := m.InsertQrDB{
+	myInsert := m.QRStruct{
 		QrCode:  u.GenerateQrCode(inputUrl.URLString),
 		User:    inputUrl.UserId,
 		Premium: isPremium,
@@ -49,4 +50,18 @@ func CreateQrCode(c *fiber.Ctx) interface{} {
 	}
 	db.InsertQR(myInsert)
 	return response
+}
+
+func GetAllQrCode(c *fiber.Ctx) []m.QRStruct {
+	var qrList []m.QRStruct = []m.QRStruct{}
+	rows := db.GetAll(c)
+
+	for rows.Next() {
+		var qr m.QRStruct
+
+		rows.Scan(&qr.User, &qr.Premium, &qr.QrCode)
+		qrList = append(qrList, qr)
+	}
+
+	return qrList
 }
