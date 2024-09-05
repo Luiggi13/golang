@@ -7,6 +7,7 @@ import (
 	"log"
 	"os"
 
+	"github.com/gofiber/fiber/v2"
 	_ "github.com/lib/pq"
 )
 
@@ -23,7 +24,6 @@ func Connect_db() *sql.DB {
 	if err != nil {
 		panic(err)
 	}
-	// defer db.Close()
 
 	err = db.Ping()
 	if err != nil {
@@ -34,7 +34,7 @@ func Connect_db() *sql.DB {
 	return db
 }
 
-func InsertQR(d m.InsertQrDB) error {
+func InsertQR(d m.QRStruct) error {
 	db := Connect_db()
 	_, err := db.Exec("INSERT INTO public.qrs (qr_code, userid,premium,created_at) VALUES($1, $2, $3, now());", d.QrCode, d.User, d.Premium)
 	if err != nil {
@@ -43,4 +43,14 @@ func InsertQR(d m.InsertQrDB) error {
 	}
 	defer db.Close()
 	return nil
+}
+
+func GetAll(c *fiber.Ctx) *sql.Rows {
+	db := Connect_db()
+	row, err := db.QueryContext(c.Context(), "select qr_code, userid, premium from qrs")
+	if err != nil {
+		fmt.Println("An error occured")
+	}
+
+	return row
 }
