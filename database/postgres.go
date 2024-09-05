@@ -54,3 +54,14 @@ func GetAll(c *fiber.Ctx) *sql.Rows {
 
 	return row
 }
+
+func GetById(c *fiber.Ctx) *sql.Rows {
+	query := fmt.Sprintf("select qr_code, userid, premium from qrs WHERE id = %s", c.Params("id"))
+	db := Connect_db()
+	row, err := db.QueryContext(c.Context(), query)
+	if err != nil {
+		fmt.Println("An error occured")
+	}
+
+	return row
+}
