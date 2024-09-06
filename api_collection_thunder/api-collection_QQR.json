@@ -1,0 +1,113 @@
+{
+    "clientName": "Thunder Client",
+    "collectionName": "QQR",
+    "collectionId": "ef19b98a-3ede-411b-af48-a44096cf4950",
+    "dateExported": "2024-09-06T07:25:13.785Z",
+    "version": "1.2",
+    "folders": [],
+    "requests": [
+        {
+            "_id": "34e2b5db-bd08-4eed-ba51-8ce0fb12e441",
+            "colId": "ef19b98a-3ede-411b-af48-a44096cf4950",
+            "containerId": "",
+            "name": "health Go",
+            "url": "http://localhost:1313/api/v1/health",
+            "method": "GET",
+            "sortNum": 10000,
+            "created": "2024-09-01T19:30:56.959Z",
+            "modified": "2024-09-06T07:24:19.887Z",
+            "headers": [
+                {
+                    "name": "Accept",
+                    "value": "*/*",
+                    "isDisabled": true
+                },
+                {
+                    "name": "User-Agent",
+                    "value": "Thunder Client (https://www.thunderclient.com)",
+                    "isDisabled": true
+                }
+            ],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"url\": \"http://localhost:1313/api/v1/qr\"\n}",
+                "form": []
+            }
+        },
+        {
+            "_id": "f93a072e-a7ad-40a2-b820-f5979e8c3e7b",
+            "colId": "ef19b98a-3ede-411b-af48-a44096cf4950",
+            "containerId": "",
+            "name": "Get All QR",
+            "url": "http://localhost:1313/api/v1/qr/",
+            "method": "GET",
+            "sortNum": 20000,
+            "created": "2024-09-06T07:24:39.637Z",
+            "modified": "2024-09-06T07:24:39.637Z",
+            "headers": [
+                {
+                    "name": "Accept",
+                    "value": "*/*",
+                    "isDisabled": true
+                },
+                {
+                    "name": "User-Agent",
+                    "value": "Thunder Client (https://www.thunderclient.com)",
+                    "isDisabled": true
+                }
+            ]
+        },
+        {
+            "_id": "08528db4-b48a-4768-aa52-ca7b9ac79397",
+            "colId": "ef19b98a-3ede-411b-af48-a44096cf4950",
+            "containerId": "",
+            "name": "Get QR By Id",
+            "url": "http://localhost:1313/api/v1/qr/2",
+            "method": "GET",
+            "sortNum": 30000,
+            "created": "2024-09-06T07:24:46.858Z",
+            "modified": "2024-09-06T07:24:46.858Z",
+            "headers": [
+                {
+                    "name": "Accept",
+                    "value": "*/*",
+                    "isDisabled": true
+                },
+                {
+                    "name": "User-Agent",
+                    "value": "Thunder Client (https://www.thunderclient.com)",
+                    "isDisabled": true
+                }
+            ]
+        },
+        {
+            "_id": "0e97b6ee-3685-46bc-b152-70100f145e28",
+            "colId": "ef19b98a-3ede-411b-af48-a44096cf4950",
+            "containerId": "",
+            "name": "Post QR",
+            "url": "http://localhost:1313/api/v1/qr",
+            "method": "POST",
+            "sortNum": 40000,
+            "created": "2024-09-06T07:24:52.219Z",
+            "modified": "2024-09-06T07:24:52.219Z",
+            "headers": [
+                {
+                    "name": "Accept",
+                    "value": "*/*",
+                    "isDisabled": true
+                },
+                {
+                    "name": "User-Agent",
+                    "value": "Thunder Client (https://www.thunderclient.com)",
+                    "isDisabled": true
+                }
+            ],
+            "body": {
+                "type": "json",
+                "raw": "{\n\"url\": \"http://www.go.dev\",\n  \"userId\": \"GoUser\",\n  \"premium\": false\n}",
+                "form": []
+            }
+        }
+    ],
+    "ref": "_6-GcKjvBfyCBa40l0C29KpWYvwC1P6y-JtvIAaYWq0gKvqW1cq1iQAh8v1HIP8f6Egr3TorqTh8GcPzn70bzA"
+}
