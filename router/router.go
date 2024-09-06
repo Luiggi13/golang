@@ -27,6 +27,7 @@ func CreateRoutes(app *fiber.App) {
 	migrate := v1.Group("/migrate")
 	migrate.Get("/", migrateSql)
 	migrate.Get("/seed", seedSql)
+	migrate.Get("/clean", cleanSql)
 
 	qrCodeRoutes := v1.Group("/qr", logger.New())
 	qrCodeRoutes.Get("/", getAllQr)
@@ -45,6 +46,9 @@ func migrateSql(c *fiber.Ctx) error {
 }
 func seedSql(c *fiber.Ctx) error {
 	return c.JSON(m.InitSeeders(c))
+}
+func cleanSql(c *fiber.Ctx) error {
+	return c.JSON(m.CleanTables(c))
 }
 func createQr(c *fiber.Ctx) error {
 	return c.JSON(m.CreateQrCode(c))
