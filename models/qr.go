@@ -72,3 +72,19 @@ func NotFound(be BaseError) CustomErrorQR {
 		Details:    details,
 	}
 }
+
+func MigrationInterface(be BaseError) CustomErrorQR {
+
+	details := Details{
+		Method: be.Method,
+	}
+	if be.Url != "" {
+		details.URL = be.Url
+	}
+	return CustomErrorQR{
+		Status:     "Migrations",
+		StatusCode: 200,
+		Message:    be.Message,
+		Details:    details,
+	}
+}

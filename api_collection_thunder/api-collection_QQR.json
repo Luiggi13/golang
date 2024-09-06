@@ -2,9 +2,17 @@
     "clientName": "Thunder Client",
     "collectionName": "QQR",
     "collectionId": "ef19b98a-3ede-411b-af48-a44096cf4950",
-    "dateExported": "2024-09-06T09:18:15.744Z",
+    "dateExported": "2024-09-06T12:34:49.423Z",
     "version": "1.2",
-    "folders": [],
+    "folders": [
+        {
+            "_id": "f864658c-29b2-4ee3-aeae-bc12747bcec3",
+            "name": "Migrations",
+            "containerId": "",
+            "created": "2024-09-06T12:31:12.379Z",
+            "sortNum": 10000
+        }
+    ],
     "requests": [
         {
             "_id": "34e2b5db-bd08-4eed-ba51-8ce0fb12e441",
@@ -130,7 +138,36 @@
                     "isDisabled": true
                 }
             ]
+        },
+        {
+            "_id": "189c6dda-4dc2-4fff-bf27-98ca5212fc42",
+            "colId": "ef19b98a-3ede-411b-af48-a44096cf4950",
+            "containerId": "f864658c-29b2-4ee3-aeae-bc12747bcec3",
+            "name": "Migration",
+            "url": "http://localhost:1313/api/v1/migrate",
+            "method": "GET",
+            "sortNum": 60000,
+            "created": "2024-09-06T12:31:23.855Z",
+            "modified": "2024-09-06T12:31:35.589Z",
+            "headers": []
+        },
+        {
+            "_id": "fc2afe8a-3fdc-4455-84ca-2d96c44c6165",
+            "colId": "ef19b98a-3ede-411b-af48-a44096cf4950",
+            "containerId": "f864658c-29b2-4ee3-aeae-bc12747bcec3",
+            "name": "Seeder",
+            "url": "http://localhost:1313/api/v1/migrate/seed",
+            "method": "GET",
+            "sortNum": 70000,
+            "created": "2024-09-06T12:31:38.085Z",
+            "modified": "2024-09-06T12:31:51.124Z",
+            "headers": []
         }
     ],
-    "ref": "_6-GcKjvBfyCBa40l0C29Iq8yzt7NvD6Hy9B8A16D3ViwJDS9Z_K2gEQ7Wpn5sg7FoPfi6LXBrxuay9QcjIYKA"
+    "settings": {
+        "options": {
+            "baseUrl": "http://www.localhost/api/v1"
+        }
+    },
+    "ref": "_6-GcKjvBfyCBa40l0C29IaNCBnQxVg_EVhmBmIsR5vfcwFYLVH3YqyA1aDKu9CWbwzVdIAec1Gu9s3zRQn_AQ"
 }

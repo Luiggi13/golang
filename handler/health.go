@@ -2,6 +2,7 @@ package handler
 
 import (
 	db "goapi/database"
+	m "goapi/models"
 	"os"
 
 	"github.com/gofiber/fiber/v2"
@@ -19,11 +20,11 @@ func GetHealth(c *fiber.Ctx) Health {
 	}
 }
 
-func InitMigration(c *fiber.Ctx) error {
+func InitMigration(c *fiber.Ctx) interface{} {
 	db.Connect_db(true, false)
-	return nil
+	return m.MigrationInterface(m.BaseError{Message: "Migration deployed correctly", Method: c.Method()})
 }
-func InitSeeders(c *fiber.Ctx) error {
+func InitSeeders(c *fiber.Ctx) interface{} {
 	db.Connect_db(false, true)
-	return nil
+	return m.MigrationInterface(m.BaseError{Message: "Seeder deployed correctly", Method: c.Method()})
 }
