@@ -4,6 +4,7 @@ import (
 	db "goapi/database"
 	m "goapi/models"
 	u "goapi/utils"
+	"strconv"
 
 	"github.com/gofiber/fiber/v2"
 	_ "github.com/lib/pq" // add this
@@ -80,4 +81,27 @@ func GetByIdQrCode(c *fiber.Ctx) interface{} {
 	}
 
 	return m.NotFound(m.BaseError{Message: "Non-existent user", Method: c.Method()})
+}
+
+func DeleteQrById(c *fiber.Ctx) interface{} {
+	_, err := strconv.Atoi(c.Params("id"))
+	if err != nil {
+		return m.BadRequestError(m.BaseError{Message: "Id param should be a number", Method: c.Method()})
+	}
+	res, err := db.DeleteById(c)
+	if err != nil {
+		return m.InternalRequestError(m.BaseError{Message: "Internal server error. Try again in a few minutes", Method: c.Method()})
+	}
+
+	rowsAffected, err := res.RowsAffected()
+	if err != nil {
+		return m.InternalRequestError(m.BaseError{Message: "Internal server error. Try again in a few minutes", Method: c.Method()})
+	}
+
+	switch rowsAffected {
+	case 0:
+		return m.NotFound(m.BaseError{Message: "Failed to delete QR code", Method: c.Method()})
+	default:
+		return m.DeleteResponse(m.BaseError{Message: "Resource deleted", Method: c.Method()})
+	}
 }

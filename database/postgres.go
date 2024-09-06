@@ -66,3 +66,16 @@ func GetById(c *fiber.Ctx) *sql.Rows {
 
 	return row
 }
+
+func DeleteById(c *fiber.Ctx) (sql.Result, error) {
+	query := fmt.Sprintf("DELETE FROM qrs WHERE id = %s", c.Params("id"))
+	db := Connect_db()
+	deleted, err := db.ExecContext(c.Context(), query)
+	if err != nil {
+		fmt.Println("An error occured")
+		// return nil, fiber.NewError(fiber.StatusInternalServerError, "Failed to delete QR code")
+	}
+
+	defer db.Close()
+	return deleted, nil
+}
