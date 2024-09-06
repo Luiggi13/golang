@@ -28,6 +28,7 @@ func CreateRoutes(app *fiber.App) {
 	qrCodeRoutes.Get("/", getAllQr)
 	qrCodeRoutes.Get("/:id", getQrById)
 	qrCodeRoutes.Post("/", createQr)
+	qrCodeRoutes.Delete("/:id", deleteQrById)
 
 }
 
@@ -43,4 +44,8 @@ func getAllQr(c *fiber.Ctx) error {
 }
 func getQrById(c *fiber.Ctx) error {
 	return c.JSON(m.GetByIdQrCode(c))
+}
+
+func deleteQrById(c *fiber.Ctx) error {
+	return c.JSON(m.DeleteQrById(c))
 }
