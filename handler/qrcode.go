@@ -41,7 +41,7 @@ func CreateQrCode(c *fiber.Ctx) interface{} {
 		QrCode:  u.GenerateQrCode(inputUrl.URLString),
 		User:    inputUrl.UserId,
 		Premium: isPremium,
-		Url:     inputUrl.URLString,
+		UrlText: inputUrl.URLString,
 	}
 	response := m.QrCodeGenerated{
 		Id:         *inputUrl.UserId,
@@ -60,7 +60,7 @@ func GetAllQrCode(c *fiber.Ctx) []m.QRStruct {
 	for rows.Next() {
 		var qr m.QRStruct
 
-		rows.Scan(&qr.User, &qr.Premium, &qr.QrCode)
+		rows.Scan(&qr.QrCode, &qr.User, &qr.Premium, &qr.UrlText)
 		qrList = append(qrList, qr)
 	}
 

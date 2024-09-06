@@ -36,7 +36,7 @@ func Connect_db() *sql.DB {
 
 func InsertQR(d m.QRStruct) error {
 	db := Connect_db()
-	_, err := db.Exec("INSERT INTO public.qrs (url_text, qr_code, userid,premium,created_at) VALUES($4, $1, $2, $3, now());", d.QrCode, d.User, d.Premium, d.Url)
+	_, err := db.Exec("INSERT INTO public.qrs (url_text, qr_code, userid,premium,created_at) VALUES($4, $1, $2, $3, now());", d.QrCode, d.User, d.Premium, d.UrlText)
 	if err != nil {
 		log.Fatalln(err)
 		fmt.Println("An error occured")
@@ -47,7 +47,8 @@ func InsertQR(d m.QRStruct) error {
 
 func GetAll(c *fiber.Ctx) *sql.Rows {
 	db := Connect_db()
-	row, err := db.QueryContext(c.Context(), "select qr_code, userid, premium from qrs")
+	// rows.Scan(&qr.QrCode, &qr.User, &qr.Premium, &qr.UrlText)
+	row, err := db.QueryContext(c.Context(), "select qr_code, userid, premium, url_text from qrs")
 	if err != nil {
 		fmt.Println("An error occured")
 	}
