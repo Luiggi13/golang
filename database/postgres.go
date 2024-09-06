@@ -36,7 +36,7 @@ func Connect_db() *sql.DB {
 
 func InsertQR(d m.QRStruct) error {
 	db := Connect_db()
-	_, err := db.Exec("INSERT INTO public.qrs (qr_code, userid,premium,created_at) VALUES($1, $2, $3, now());", d.QrCode, d.User, d.Premium)
+	_, err := db.Exec("INSERT INTO public.qrs (url_text, qr_code, userid,premium,created_at) VALUES($4, $1, $2, $3, now());", d.QrCode, d.User, d.Premium, d.Url)
 	if err != nil {
 		log.Fatalln(err)
 		fmt.Println("An error occured")

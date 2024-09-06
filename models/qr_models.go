@@ -37,4 +37,5 @@ type QRStruct struct {
 	QrCode  string  `json:"qr_code"`
 	User    *string `json:"id"`
 	Premium bool    `json:"premium"`
+	Url     string  `json:"url_text"`
 }

@@ -41,6 +41,7 @@ func CreateQrCode(c *fiber.Ctx) interface{} {
 		QrCode:  u.GenerateQrCode(inputUrl.URLString),
 		User:    inputUrl.UserId,
 		Premium: isPremium,
+		Url:     inputUrl.URLString,
 	}
 	response := m.QrCodeGenerated{
 		Id:         *inputUrl.UserId,
