@@ -22,10 +22,12 @@ func CreateRoutes(app *fiber.App) {
 		return c.JSON(fiber.Map{"status": "[v1] -> 301 Redirect"})
 	})
 	v1.Get("/health", health)
-	v1.Post("/qr/", createQr)
-	v1.Get("/qr/", getAllQr)
-	v1.Get("/qr/:id", getQrById)
 	v1.Get("/metrics", monitor.New(monitor.Config{Title: "MyService Metrics Page"}))
+
+	qrCodeRoutes := v1.Group("/qr", logger.New())
+	qrCodeRoutes.Get("/", getAllQr)
+	qrCodeRoutes.Get("/:id", getQrById)
+	qrCodeRoutes.Post("/", createQr)
 
 }
 
