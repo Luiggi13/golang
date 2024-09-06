@@ -2,7 +2,7 @@
     "clientName": "Thunder Client",
     "collectionName": "QQR",
     "collectionId": "ef19b98a-3ede-411b-af48-a44096cf4950",
-    "dateExported": "2024-09-06T07:25:13.785Z",
+    "dateExported": "2024-09-06T09:18:15.744Z",
     "version": "1.2",
     "folders": [],
     "requests": [
@@ -62,11 +62,11 @@
             "colId": "ef19b98a-3ede-411b-af48-a44096cf4950",
             "containerId": "",
             "name": "Get QR By Id",
-            "url": "http://localhost:1313/api/v1/qr/2",
+            "url": "http://localhost:1313/api/v1/qr/:id",
             "method": "GET",
             "sortNum": 30000,
             "created": "2024-09-06T07:24:46.858Z",
-            "modified": "2024-09-06T07:24:46.858Z",
+            "modified": "2024-09-06T09:17:43.052Z",
             "headers": [
                 {
                     "name": "Accept",
@@ -89,7 +89,7 @@
             "method": "POST",
             "sortNum": 40000,
             "created": "2024-09-06T07:24:52.219Z",
-            "modified": "2024-09-06T07:24:52.219Z",
+            "modified": "2024-09-06T07:37:13.046Z",
             "headers": [
                 {
                     "name": "Accept",
@@ -104,10 +104,33 @@
             ],
             "body": {
                 "type": "json",
-                "raw": "{\n\"url\": \"http://www.go.dev\",\n  \"userId\": \"GoUser\",\n  \"premium\": false\n}",
+                "raw": "{\n\"url\": \"http://www.go.dev\",\n  \"userId\": \"GoLang User\",\n  \"premium\": true\n}",
                 "form": []
             }
+        },
+        {
+            "_id": "b92d77ed-b744-4237-8e4b-06d4e55f4d40",
+            "colId": "ef19b98a-3ede-411b-af48-a44096cf4950",
+            "containerId": "",
+            "name": "Delete QR By Id",
+            "url": "http://localhost:1313/api/v1/qr/:id",
+            "method": "DELETE",
+            "sortNum": 50000,
+            "created": "2024-09-06T09:17:34.103Z",
+            "modified": "2024-09-06T09:17:34.103Z",
+            "headers": [
+                {
+                    "name": "Accept",
+                    "value": "*/*",
+                    "isDisabled": true
+                },
+                {
+                    "name": "User-Agent",
+                    "value": "Thunder Client (https://www.thunderclient.com)",
+                    "isDisabled": true
+                }
+            ]
         }
     ],
-    "ref": "_6-GcKjvBfyCBa40l0C29KpWYvwC1P6y-JtvIAaYWq0gKvqW1cq1iQAh8v1HIP8f6Egr3TorqTh8GcPzn70bzA"
+    "ref": "_6-GcKjvBfyCBa40l0C29Iq8yzt7NvD6Hy9B8A16D3ViwJDS9Z_K2gEQ7Wpn5sg7FoPfi6LXBrxuay9QcjIYKA"
 }
