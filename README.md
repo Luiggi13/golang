@@ -91,9 +91,18 @@ This will start the server in a Docker container, and it will be accessible at h
 
 - `main.go`: The main entry point for the application.
 - `router/`: Contains the route definitions for the API.
-- `handler/`: This folder contains the core logic for handling API requests. It includes:
+  - `router.go`: Defines the routes for the API endpoints.
+- `handler/`: This folder contains the core logic for handling API requests.
   - `qrcode.go`: Contains the function `CreateQrCode` which handles the creation of QR codes based on the input URL provided in the request.
   - `health.go`: Contains the `GetHealth` function, which is used to check the health status of the API. The `Health` struct is also defined here, representing the structure of the health check response.
+- `database/`: This folder contains the code for interacting with the database.
+  - `postgres.go`: Contains the functions for connecting to the PostgreSQL database and performing CRUD operations.
+- `models/`: This folder contains the data models and their associated methods.
+  - `qr.go`: Defines the `QR` struct and its associated methods.
+  - `health.go`: Defines the `Health` struct and its associated methods.
+- `utils/`: This folder contains utility functions and their tests.
+  - `qrcode.go`: Contains the function `GenerateQrCode` which generates a QR code based on the provided URL.
+  - `qrcode_test.go`: Contains the tests for the `GenerateQrCode` function.
 - `.env`: Environment variables configuration file (not included). You can clone the `.env.template` file provided in the project and rename it to `.env`. Modify this file according to your environment and project needs, such as changing the server's address and port.
 
 # Troubleshooting
