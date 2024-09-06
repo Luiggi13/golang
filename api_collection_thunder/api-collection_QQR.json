@@ -2,7 +2,7 @@
     "clientName": "Thunder Client",
     "collectionName": "QQR",
     "collectionId": "ef19b98a-3ede-411b-af48-a44096cf4950",
-    "dateExported": "2024-09-06T12:34:49.423Z",
+    "dateExported": "2024-09-06T19:08:13.062Z",
     "version": "1.2",
     "folders": [
         {
@@ -23,7 +23,7 @@
             "method": "GET",
             "sortNum": 10000,
             "created": "2024-09-01T19:30:56.959Z",
-            "modified": "2024-09-06T07:24:19.887Z",
+            "modified": "2024-09-06T16:44:01.925Z",
             "headers": [
                 {
                     "name": "Accept",
@@ -35,12 +35,7 @@
                     "value": "Thunder Client (https://www.thunderclient.com)",
                     "isDisabled": true
                 }
-            ],
-            "body": {
-                "type": "json",
-                "raw": "{\n  \"url\": \"http://localhost:1313/api/v1/qr\"\n}",
-                "form": []
-            }
+            ]
         },
         {
             "_id": "f93a072e-a7ad-40a2-b820-f5979e8c3e7b",
@@ -144,11 +139,11 @@
             "colId": "ef19b98a-3ede-411b-af48-a44096cf4950",
             "containerId": "f864658c-29b2-4ee3-aeae-bc12747bcec3",
             "name": "Migration",
-            "url": "http://localhost:1313/api/v1/migrate",
+            "url": "http://localhost:1313/api/v1/migrate/seed",
             "method": "GET",
             "sortNum": 60000,
             "created": "2024-09-06T12:31:23.855Z",
-            "modified": "2024-09-06T12:31:35.589Z",
+            "modified": "2024-09-06T19:07:33.123Z",
             "headers": []
         },
         {
@@ -162,6 +157,18 @@
             "created": "2024-09-06T12:31:38.085Z",
             "modified": "2024-09-06T12:31:51.124Z",
             "headers": []
+        },
+        {
+            "_id": "905caa2a-38bf-426d-8395-06724de088ff",
+            "colId": "ef19b98a-3ede-411b-af48-a44096cf4950",
+            "containerId": "f864658c-29b2-4ee3-aeae-bc12747bcec3",
+            "name": "Clean tables",
+            "url": "http://localhost:1313/api/v1/migrate/clean",
+            "method": "GET",
+            "sortNum": 80000,
+            "created": "2024-09-06T16:43:30.816Z",
+            "modified": "2024-09-06T16:43:52.940Z",
+            "headers": []
         }
     ],
     "settings": {
@@ -169,5 +176,5 @@
             "baseUrl": "http://www.localhost/api/v1"
         }
     },
-    "ref": "_6-GcKjvBfyCBa40l0C29IaNCBnQxVg_EVhmBmIsR5vfcwFYLVH3YqyA1aDKu9CWbwzVdIAec1Gu9s3zRQn_AQ"
+    "ref": "_6-GcKjvBfyCBa40l0C29A9UO1mO9coWzrWeU7FcroTx2YyyMx7jX5552YYEfdY6K3q25cCqN3iCudch4jcEPA"
 }
