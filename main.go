@@ -12,10 +12,18 @@ import (
 	"github.com/joho/godotenv"
 )
 
+func checkPort() string {
+	port := os.Getenv("PORT")
+	if port == "" {
+		port = "8080"
+	}
+	return port
+}
 func main() {
 	// Load .env file
 	_ = godotenv.Load(".env")
-	listeningAddress := os.Getenv("ADDRESS") + ":" + os.Getenv("PORT")
+	PORT := checkPort()
+	listeningAddress := os.Getenv("ADDRESS") + ":" + PORT
 
 	// Fiber instance
 	app := fiber.New(fiber.Config{
