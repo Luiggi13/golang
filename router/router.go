@@ -24,6 +24,10 @@ func CreateRoutes(app *fiber.App) {
 	v1.Get("/health", health)
 	v1.Get("/metrics", monitor.New(monitor.Config{Title: "MyService Metrics Page"}))
 
+	migrate := v1.Group("/migrate")
+	migrate.Get("/", migrateSql)
+	migrate.Get("/seed", seedSql)
+
 	qrCodeRoutes := v1.Group("/qr", logger.New())
 	qrCodeRoutes.Get("/", getAllQr)
 	qrCodeRoutes.Get("/:id", getQrById)
@@ -35,6 +39,12 @@ func CreateRoutes(app *fiber.App) {
 // Endpoint Api v1
 func health(c *fiber.Ctx) error {
 	return c.JSON(m.GetHealth(c))
+}
+func migrateSql(c *fiber.Ctx) error {
+	return c.JSON(m.InitMigration(c))
+}
+func seedSql(c *fiber.Ctx) error {
+	return c.JSON(m.InitSeeders(c))
 }
 func createQr(c *fiber.Ctx) error {
 	return c.JSON(m.CreateQrCode(c))
