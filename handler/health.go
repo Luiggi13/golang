@@ -1,6 +1,7 @@
 package handler
 
 import (
+	db "goapi/database"
 	"os"
 
 	"github.com/gofiber/fiber/v2"
@@ -16,4 +17,13 @@ func GetHealth(c *fiber.Ctx) Health {
 		Status:     200,
 		ApiVersion: os.Getenv("APIVERSION"),
 	}
+}
+
+func InitMigration(c *fiber.Ctx) error {
+	db.Connect_db(true, false)
+	return nil
+}
+func InitSeeders(c *fiber.Ctx) error {
+	db.Connect_db(false, true)
+	return nil
 }
