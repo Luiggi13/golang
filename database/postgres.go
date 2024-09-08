@@ -78,7 +78,7 @@ func Connect_db(migration bool, seed bool, clean bool) *sql.DB {
 
 func InsertQR(d m.QRStruct) error {
 	db := Connect_db(false, false, false)
-	_, err := db.Exec("INSERT INTO public.qrs (url_text, qr_code, userid,premium,created_at) VALUES($4, $1, $2, $3, now());", d.QrCode, d.User, d.Premium, d.UrlText)
+	_, err := db.Exec("INSERT INTO public.qrs (qr_code, userid, url_text, premium, id_tag, created_at) VALUES($1, $2, $3, $4, $5, now());", d.QrCode, d.UserId, d.UrlText, d.Premium, d.IdTag)
 	if err != nil {
 		log.Fatalln(err)
 		fmt.Println("An error occured")
@@ -99,9 +99,31 @@ func GetAll(c *fiber.Ctx) *sql.Rows {
 }
 
 func GetById(c *fiber.Ctx) *sql.Rows {
-	query := fmt.Sprintf("select qr_code, userid, premium from qrs WHERE id = %s", c.Params("id"))
+	query2 := fmt.Sprintf("select qrs.id, qrs.qr_code, qrs.userid, qrs.url_text, qrs.premium, tags.name AS tag_name from qrs left join tags on qrs.id_tag = tags.id where qrs.id =  %s order by qrs.id desc", c.Params("id"))
+	// query := fmt.Sprintf("select qr_code, userid, premium from qrs WHERE id = %s", c.Params("id"))
+	db := Connect_db(false, false, false)
+	row, err := db.QueryContext(c.Context(), query2)
+	if err != nil {
+		fmt.Println("An error occured")
+	}
+
+	return row
+}
+
+func GetTagByIdHandler(c *fiber.Ctx) *sql.Rows {
+	query := fmt.Sprintf("select * from tags WHERE id = '%s'", c.Params("id"))
 	db := Connect_db(false, false, false)
 	row, err := db.QueryContext(c.Context(), query)
+	if err != nil {
+		fmt.Println("An error occured")
+	}
+
+	return row
+}
+func GetAllTagsHandler(c *fiber.Ctx) *sql.Rows {
+	db := Connect_db(false, false, false)
+	query := "select * from tags order by id asc"
+	row, err := db.Query(query)
 	if err != nil {
 		fmt.Println("An error occured")
 	}

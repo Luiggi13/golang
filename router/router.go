@@ -35,6 +35,9 @@ func CreateRoutes(app *fiber.App) {
 	qrCodeRoutes.Post("/", createQr)
 	qrCodeRoutes.Delete("/:id", deleteQrById)
 
+	tagsRoutes := v1.Group("/tags", logger.New())
+	tagsRoutes.Get("/", getAllTags)
+	tagsRoutes.Get("/:id", getTagById)
 }
 
 // Endpoint Api v1
@@ -59,7 +62,12 @@ func getAllQr(c *fiber.Ctx) error {
 func getQrById(c *fiber.Ctx) error {
 	return c.JSON(m.GetByIdQrCode(c))
 }
-
 func deleteQrById(c *fiber.Ctx) error {
 	return c.JSON(m.DeleteQrById(c))
+}
+func getAllTags(c *fiber.Ctx) error {
+	return c.JSON(m.GetTags(c))
+}
+func getTagById(c *fiber.Ctx) error {
+	return c.JSON(m.GetByIdTag(c))
 }

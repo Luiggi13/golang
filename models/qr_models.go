@@ -4,6 +4,7 @@ type QrInput struct {
 	URLString string  `json:"url" validate:"required,url"`
 	UserId    *string `json:"userId"`
 	Premium   *bool   `json:"premium"`
+	IdTag     string  `json:"id_tag" validate:"required"`
 }
 
 type QrCodeGenerated struct {
@@ -11,6 +12,7 @@ type QrCodeGenerated struct {
 	StatusCode int64  `json:"status_code"`
 	QrCode     string `json:"qr_code"`
 	Premium    bool   `json:"premium" validate:"required,premium"`
+	TagName    string `json:"tag_name" validate:"required"`
 }
 
 type BaseError struct {
@@ -35,11 +37,13 @@ type Details struct {
 
 type QRStruct struct {
 	QrCode  string  `json:"qr_code"`
-	User    *string `json:"id"`
-	Premium bool    `json:"premium"`
+	UserId  *string `json:"userid"`
 	UrlText string  `json:"url_text"`
+	IdTag   string  `json:"id_tag"`
+	Premium bool    `json:"premium"`
 }
 
+// qrs.id, qrs.qr_code, qrs.userid, qrs.url_text, qrs.premium
 type QRStructJoin struct {
 	QrId    string `json:"id"`
 	QrCode  string `json:"qr_code"`
@@ -47,4 +51,10 @@ type QRStructJoin struct {
 	UrlText string `json:"url_text"`
 	Premium bool   `json:"premium"`
 	TagName string `json:"tag_name"`
+}
+
+type SelectTags struct {
+	TagId   string `json:"id"`
+	TagName string `json:"name"`
+	Public  bool   `json:"public"`
 }
