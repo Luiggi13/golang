@@ -39,3 +39,12 @@ type QRStruct struct {
 	Premium bool    `json:"premium"`
 	UrlText string  `json:"url_text"`
 }
+
+type QRStructJoin struct {
+	QrId    string `json:"id"`
+	QrCode  string `json:"qr_code"`
+	UserId  string `json:"userid"`
+	UrlText string `json:"url_text"`
+	Premium bool   `json:"premium"`
+	TagName string `json:"tag_name"`
+}

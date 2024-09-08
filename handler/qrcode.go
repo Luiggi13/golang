@@ -54,14 +54,13 @@ func CreateQrCode(c *fiber.Ctx) interface{} {
 	return response
 }
 
-func GetAllQrCode(c *fiber.Ctx) []m.QRStruct {
-	var qrList []m.QRStruct = []m.QRStruct{}
+func GetAllQrCode(c *fiber.Ctx) []m.QRStructJoin {
+	var qrList []m.QRStructJoin = []m.QRStructJoin{}
 	rows := db.GetAll(c)
 
 	for rows.Next() {
-		var qr m.QRStruct
-
-		rows.Scan(&qr.QrCode, &qr.User, &qr.Premium, &qr.UrlText)
+		var qr m.QRStructJoin
+		rows.Scan(&qr.QrId, &qr.QrCode, &qr.UserId, &qr.UrlText, &qr.Premium, &qr.TagName)
 		qrList = append(qrList, qr)
 	}
 

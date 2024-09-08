@@ -70,8 +70,8 @@ func InsertQR(d m.QRStruct) error {
 
 func GetAll(c *fiber.Ctx) *sql.Rows {
 	db := Connect_db(false, false, false)
-	// rows.Scan(&qr.QrCode, &qr.User, &qr.Premium, &qr.UrlText)
-	row, err := db.QueryContext(c.Context(), "select qr_code, userid, premium, url_text from qrs")
+	queryJoin := "select qrs.id, qrs.qr_code, qrs.userid, qrs.url_text, qrs.premium, tags.name AS tag_name from qrs left join tags on qrs.id_tag = tags.id"
+	row, err := db.Query(queryJoin)
 	if err != nil {
 		fmt.Println("An error occured")
 	}
