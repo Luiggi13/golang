@@ -143,6 +143,18 @@ func DeleteById(c *fiber.Ctx) (sql.Result, error) {
 	return deleted, nil
 }
 
+func DeleteTagsById(c *fiber.Ctx) (sql.Result, error) {
+	query := fmt.Sprintf("DELETE FROM tags WHERE id = '%s'", c.Params("id"))
+	db := Connect_db(false, false, false)
+	deleted, err := db.ExecContext(c.Context(), query)
+	if err != nil {
+		fmt.Println("An error occured")
+	}
+
+	defer db.Close()
+	return deleted, nil
+}
+
 func MakeMigrationStructure(db *sql.DB) error {
 	b, err := os.ReadFile("./database/sqls/structure.sql")
 	if err != nil {

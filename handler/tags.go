@@ -5,6 +5,7 @@ import (
 	"fmt"
 	db "goapi/database"
 	m "goapi/models"
+	"strconv"
 
 	"github.com/gofiber/fiber/v2"
 	_ "github.com/lib/pq"
@@ -47,4 +48,27 @@ func getTagForPost(c *fiber.Ctx, id string) *sql.Rows {
 	}
 
 	return row
+}
+
+func DeleteTagById(c *fiber.Ctx) interface{} {
+	_, err := strconv.Atoi(c.Params("id"))
+	if err != nil {
+		return m.BadRequestError(m.BaseError{Message: "Id param should be a number", Method: c.Method()})
+	}
+	res, err := db.DeleteTagsById(c)
+	if err != nil {
+		return m.InternalRequestError(m.BaseError{Message: "Internal server error. Try again in a few minutes", Method: c.Method()})
+	}
+
+	rowsAffected, err := res.RowsAffected()
+	if err != nil {
+		return m.InternalRequestError(m.BaseError{Message: "Internal server error. Try again in a few minutes", Method: c.Method()})
+	}
+
+	switch rowsAffected {
+	case 0:
+		return m.NotFound(m.BaseError{Message: "Failed to delete QR code", Method: c.Method()})
+	default:
+		return m.DeleteResponse(m.BaseError{Message: "Resource deleted", Method: c.Method()})
+	}
 }
