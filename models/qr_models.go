@@ -58,3 +58,8 @@ type SelectTags struct {
 	TagName string `json:"name"`
 	Public  bool   `json:"public"`
 }
+
+type PutTags struct {
+	TagName string `json:"name"`
+	Public  *bool  `json:"public"`
+}

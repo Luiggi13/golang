@@ -39,6 +39,7 @@ func CreateRoutes(app *fiber.App) {
 	tagsRoutes.Get("/", getAllTags)
 	tagsRoutes.Get("/:id", getTagById)
 	tagsRoutes.Delete("/:id", deleteTagById)
+	tagsRoutes.Put("/:id", putTagById)
 }
 
 // Endpoint Api v1
@@ -74,4 +75,7 @@ func getTagById(c *fiber.Ctx) error {
 }
 func deleteTagById(c *fiber.Ctx) error {
 	return c.JSON(m.DeleteTagById(c))
+}
+func putTagById(c *fiber.Ctx) error {
+	return c.JSON(m.UpdateTagById(c))
 }

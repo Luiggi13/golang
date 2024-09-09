@@ -136,6 +136,31 @@ func DeleteTagsById(c *fiber.Ctx) (sql.Result, error) {
 	return deleted, nil
 }
 
+func PutTagsById(c *fiber.Ctx) (sql.Result, error) {
+	bodyRes := &m.PutTags{}
+	err := c.BodyParser(bodyRes)
+	if err != nil {
+		return nil, fmt.Errorf("error parsing body: %v", err)
+	}
+
+	if bodyRes.TagName == "" {
+		return nil, fmt.Errorf("the 'name' field is required and must not be empty")
+	}
+	if bodyRes.Public == nil {
+		return nil, fmt.Errorf("the 'public' field is required and must not be empty")
+	}
+	query := fmt.Sprintf("UPDATE tags SET name='%s', public=%v WHERE id = '%s'", bodyRes.TagName, bodyRes.Public, c.Params("id"))
+	db := Connect_db(false, false, false)
+	updatedRow, errQuery := db.ExecContext(c.Context(), query)
+
+	if errQuery != nil {
+		return nil, fmt.Errorf("error updating database: %v", errQuery)
+	}
+
+	defer db.Close()
+	return updatedRow, nil
+}
+
 func MakeMigrationStructure(db *sql.DB) error {
 	b, err := os.ReadFile("./database/sqls/structure.sql")
 	if err != nil {

@@ -67,7 +67,37 @@ func DeleteTagById(c *fiber.Ctx) interface{} {
 
 	switch rowsAffected {
 	case 0:
-		return m.NotFound(m.BaseError{Message: "Failed to delete QR code", Method: c.Method()})
+		errorMessage := fmt.Sprintf("Failed to delete Tag with id: '%s'", c.Params("id"))
+		return m.NotFound(m.BaseError{Message: errorMessage, Method: c.Method()})
+	default:
+		return m.DeleteResponse(m.BaseError{Message: "Resource deleted", Method: c.Method()})
+	}
+}
+func UpdateTagById(c *fiber.Ctx) interface{} {
+	bodyRes := &m.PutTags{}
+	errParser := c.BodyParser(bodyRes)
+
+	if errParser != nil {
+		fmt.Println(errParser)
+	}
+	_, err := strconv.Atoi(c.Params("id"))
+	if err != nil {
+		return m.BadRequestError(m.BaseError{Message: "Id param should be a string", Method: c.Method()})
+	}
+	res, errPut := db.PutTagsById(c)
+	if errPut != nil {
+		return m.InternalRequestError(m.BaseError{Message: errPut.Error(), Method: c.Method()})
+	}
+
+	rowsAffected, err := res.RowsAffected()
+	if err != nil {
+		return m.InternalRequestError(m.BaseError{Message: "Internal server error. Try again in a few minutes", Method: c.Method()})
+	}
+
+	switch rowsAffected {
+	case 0:
+		errorMessage := fmt.Sprintf("Failed to update Tag with id: '%s'", c.Params("id"))
+		return m.NotFound(m.BaseError{Message: errorMessage, Method: c.Method()})
 	default:
 		return m.DeleteResponse(m.BaseError{Message: "Resource deleted", Method: c.Method()})
 	}
