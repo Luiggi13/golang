@@ -41,7 +41,7 @@ func GetTags(c *fiber.Ctx) interface{} {
 
 func getTagForPost(c *fiber.Ctx, id string) *sql.Rows {
 	query := fmt.Sprintf("select * from tags WHERE id = '%s'", id)
-	db := db.Connect_db(false, false, false)
+	db := db.Connect_db(false, false)
 	row, err := db.QueryContext(c.Context(), query)
 	if err != nil {
 		fmt.Println("An error occured")

@@ -21,14 +21,11 @@ func GetHealth(c *fiber.Ctx) Health {
 }
 
 func InitMigration(c *fiber.Ctx) interface{} {
-	db.Connect_db(true, false, false)
+	db.Connect_db(true, false)
 	return m.MigrationInterface(m.BaseError{Message: "Migration deployed correctly", Method: c.Method()})
 }
-func InitSeeders(c *fiber.Ctx) interface{} {
-	db.Connect_db(false, true, false)
-	return m.MigrationInterface(m.BaseError{Message: "Seeder deployed correctly", Method: c.Method()})
-}
+
 func CleanTables(c *fiber.Ctx) interface{} {
-	// db.Connect_db(false, true, true)
+	db.Connect_db(false, true)
 	return m.MigrationInterface(m.BaseError{Message: "Cleaned tables correctly", Method: c.Method()})
 }

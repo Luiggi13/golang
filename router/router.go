@@ -8,11 +8,9 @@ import (
 	"github.com/gofiber/fiber/v2/middleware/monitor"
 )
 
-// CreateRoutes for fiber app
 func CreateRoutes(app *fiber.App) {
 	api := app.Group("/api", logger.New())
 
-	// Api v1
 	v1 := api.Group("/v1")
 	v1.Get("/", func(c *fiber.Ctx) error {
 		err := c.Redirect("/api/v1/health", fiber.StatusMovedPermanently)
@@ -26,7 +24,6 @@ func CreateRoutes(app *fiber.App) {
 
 	migrate := v1.Group("/migrate")
 	migrate.Get("/", migrateSql)
-	migrate.Get("/seed", seedSql)
 	migrate.Get("/clean", cleanSql)
 
 	qrCodeRoutes := v1.Group("/qr", logger.New())
@@ -42,40 +39,46 @@ func CreateRoutes(app *fiber.App) {
 	tagsRoutes.Put("/:id", putTagById)
 }
 
-// Endpoint Api v1
 func health(c *fiber.Ctx) error {
 	return c.JSON(m.GetHealth(c))
 }
+
 func migrateSql(c *fiber.Ctx) error {
 	return c.JSON(m.InitMigration(c))
 }
-func seedSql(c *fiber.Ctx) error {
-	return c.JSON(m.InitSeeders(c))
-}
+
 func cleanSql(c *fiber.Ctx) error {
 	return c.JSON(m.CleanTables(c))
 }
+
 func createQr(c *fiber.Ctx) error {
 	return c.JSON(m.CreateQrCode(c))
 }
+
 func getAllQr(c *fiber.Ctx) error {
 	return c.JSON(m.GetAllQrCode(c))
 }
+
 func getQrById(c *fiber.Ctx) error {
 	return c.JSON(m.GetByIdQrCode(c))
 }
+
 func deleteQrById(c *fiber.Ctx) error {
 	return c.JSON(m.DeleteQrById(c))
 }
+
 func getAllTags(c *fiber.Ctx) error {
 	return c.JSON(m.GetTags(c))
 }
+
 func getTagById(c *fiber.Ctx) error {
 	return c.JSON(m.GetByIdTag(c))
 }
+
 func deleteTagById(c *fiber.Ctx) error {
 	return c.JSON(m.DeleteTagById(c))
 }
+
 func putTagById(c *fiber.Ctx) error {
 	return c.JSON(m.UpdateTagById(c))
 }

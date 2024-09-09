@@ -54,7 +54,7 @@ type QRStructJoin struct {
 }
 
 type SelectTags struct {
-	TagId   string `json:"id"`
+	TagId   int32  `json:"id"`
 	TagName string `json:"name"`
 	Public  bool   `json:"public"`
 }
