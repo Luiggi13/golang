@@ -16,30 +16,11 @@ const (
 	driver = "postgres"
 )
 
-func getPostgresConfig(host, user, password, dbname string, port int) string {
-	return fmt.Sprintf("host=%s port=%d user=%s password=%s dbname=%s sslmode=disable",
-		host, port, user, password, dbname)
-}
-
-func setEnvironment() string {
-	var host, user, password, dbname string
-
-	if os.Getenv("ENVIRONMENT") == "development" {
-		host = os.Getenv("DEV_POSTGRES_HOST")
-		user = os.Getenv("DEV_POSTGRES_USER")
-		password = os.Getenv("DEV_POSTGRES_PASSWORD")
-		dbname = os.Getenv("DEV_POSTGRES_DB")
-	} else if os.Getenv("ENVIRONMENT") == "live" {
-		host = os.Getenv("POSTGRES_HOST")
-		user = os.Getenv("POSTGRES_USER")
-		password = os.Getenv("POSTGRES_PASSWORD")
-		dbname = os.Getenv("POSTGRES_DB")
-	}
-	fmt.Println(host, user, password, dbname, port)
-	return getPostgresConfig(host, user, password, dbname, port)
-}
 func Connect_db(migration bool, seed bool, clean bool) *sql.DB {
-	db, err := sql.Open(driver, setEnvironment())
+	psqlInfo := fmt.Sprintf("host=%s port=%d user=%s "+
+		"password=%s dbname=%s sslmode=disable",
+		os.Getenv("POSTGRES_HOST"), port, os.Getenv("POSTGRES_USER"), os.Getenv("POSTGRES_PASSWORD"), os.Getenv("POSTGRES_DB"))
+	db, err := sql.Open(driver, psqlInfo)
 	if err != nil {
 		panic(err)
 	}
