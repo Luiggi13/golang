@@ -45,12 +45,12 @@ type QRStruct struct {
 
 // qrs.id, qrs.qr_code, qrs.userid, qrs.url_text, qrs.premium
 type QRStructJoin struct {
-	QrId    string `json:"id"`
-	QrCode  string `json:"qr_code"`
-	UserId  string `json:"user_id"`
-	UrlText string `json:"url_text"`
-	Premium bool   `json:"premium"`
-	TagName string `json:"tag_name"`
+	QrId     string `json:"id"`
+	QrCode   string `json:"qr_code"`
+	UrlText  string `json:"url_text"`
+	Premium  bool   `json:"premium"`
+	UserName string `json:"user_name"`
+	TagName  string `json:"tag_name"`
 }
 
 type SelectTags struct {

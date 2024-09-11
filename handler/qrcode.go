@@ -93,7 +93,7 @@ func GetAllQrCode(c *fiber.Ctx) []m.QRStructJoin {
 
 	for rows.Next() {
 		var qr m.QRStructJoin
-		rows.Scan(&qr.QrId, &qr.QrCode, &qr.UserId, &qr.UrlText, &qr.Premium, &qr.TagName)
+		rows.Scan(&qr.QrId, &qr.QrCode, &qr.UrlText, &qr.Premium, &qr.UserName, &qr.TagName)
 		qrList = append(qrList, qr)
 	}
 
@@ -105,7 +105,7 @@ func GetByIdQrCode(c *fiber.Ctx) interface{} {
 
 	rows := db.GetById(c)
 	for rows.Next() {
-		err := rows.Scan(&qr.QrId, &qr.QrCode, &qr.UserId, &qr.UrlText, &qr.Premium, &qr.TagName)
+		err := rows.Scan(&qr.QrId, &qr.QrCode, &qr.UserName, &qr.UrlText, &qr.Premium, &qr.TagName)
 
 		if err == nil {
 			return qr
