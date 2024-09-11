@@ -2,7 +2,7 @@
     "clientName": "Thunder Client",
     "collectionName": "QQR",
     "collectionId": "ef19b98a-3ede-411b-af48-a44096cf4950",
-    "dateExported": "2024-09-06T19:08:13.062Z",
+    "dateExported": "2024-09-08T18:44:35.280Z",
     "version": "1.2",
     "folders": [
         {
@@ -11,13 +11,34 @@
             "containerId": "",
             "created": "2024-09-06T12:31:12.379Z",
             "sortNum": 10000
+        },
+        {
+            "_id": "357d331c-6d46-43a3-b807-b42bb813d3db",
+            "name": "Tags",
+            "containerId": "",
+            "created": "2024-09-08T18:43:02.999Z",
+            "sortNum": 20000
+        },
+        {
+            "_id": "4c63f3b1-7979-4fd6-9462-0604e0a0fa7c",
+            "name": "QRS",
+            "containerId": "",
+            "created": "2024-09-08T18:43:40.610Z",
+            "sortNum": 30000
+        },
+        {
+            "_id": "0359e93d-55a1-4a85-833c-a85857648506",
+            "name": "Internal",
+            "containerId": "",
+            "created": "2024-09-08T18:43:53.877Z",
+            "sortNum": 40000
         }
     ],
     "requests": [
         {
             "_id": "34e2b5db-bd08-4eed-ba51-8ce0fb12e441",
             "colId": "ef19b98a-3ede-411b-af48-a44096cf4950",
-            "containerId": "",
+            "containerId": "0359e93d-55a1-4a85-833c-a85857648506",
             "name": "health Go",
             "url": "http://localhost:1313/api/v1/health",
             "method": "GET",
@@ -40,11 +61,11 @@
         {
             "_id": "f93a072e-a7ad-40a2-b820-f5979e8c3e7b",
             "colId": "ef19b98a-3ede-411b-af48-a44096cf4950",
-            "containerId": "",
+            "containerId": "4c63f3b1-7979-4fd6-9462-0604e0a0fa7c",
             "name": "Get All QR",
             "url": "http://localhost:1313/api/v1/qr/",
             "method": "GET",
-            "sortNum": 20000,
+            "sortNum": 10000,
             "created": "2024-09-06T07:24:39.637Z",
             "modified": "2024-09-06T07:24:39.637Z",
             "headers": [
@@ -61,15 +82,51 @@
             ]
         },
         {
+            "_id": "e6a2ecd1-e8a4-4aa7-8c23-8fe9a2f503a3",
+            "colId": "ef19b98a-3ede-411b-af48-a44096cf4950",
+            "containerId": "357d331c-6d46-43a3-b807-b42bb813d3db",
+            "name": "Get all TAGS",
+            "url": "http://localhost:1313/api/v1/tags",
+            "method": "GET",
+            "sortNum": 15000,
+            "created": "2024-09-08T18:43:16.137Z",
+            "modified": "2024-09-08T18:43:16.137Z",
+            "headers": []
+        },
+        {
+            "_id": "77a5fa79-c951-4763-b965-d76ffa12a146",
+            "colId": "ef19b98a-3ede-411b-af48-a44096cf4950",
+            "containerId": "357d331c-6d46-43a3-b807-b42bb813d3db",
+            "name": "GET TAG by id",
+            "url": "http://localhost:1313/api/v1/tags/:id",
+            "method": "GET",
+            "sortNum": 16250,
+            "created": "2024-09-08T18:43:13.878Z",
+            "modified": "2024-09-08T18:43:13.878Z",
+            "headers": []
+        },
+        {
+            "_id": "73a7b51d-d4b5-4dde-b4f6-be6889ca612d",
+            "colId": "ef19b98a-3ede-411b-af48-a44096cf4950",
+            "containerId": "357d331c-6d46-43a3-b807-b42bb813d3db",
+            "name": "DELETE TAG by id",
+            "url": "http://localhost:1313/api/v1/tags/:id",
+            "method": "DELETE",
+            "sortNum": 17500,
+            "created": "2024-09-08T18:43:11.172Z",
+            "modified": "2024-09-08T18:43:11.172Z",
+            "headers": []
+        },
+        {
             "_id": "08528db4-b48a-4768-aa52-ca7b9ac79397",
             "colId": "ef19b98a-3ede-411b-af48-a44096cf4950",
-            "containerId": "",
+            "containerId": "4c63f3b1-7979-4fd6-9462-0604e0a0fa7c",
             "name": "Get QR By Id",
             "url": "http://localhost:1313/api/v1/qr/:id",
             "method": "GET",
-            "sortNum": 30000,
+            "sortNum": 20000,
             "created": "2024-09-06T07:24:46.858Z",
-            "modified": "2024-09-06T09:17:43.052Z",
+            "modified": "2024-09-08T18:42:13.033Z",
             "headers": [
                 {
                     "name": "Accept",
@@ -86,13 +143,13 @@
         {
             "_id": "0e97b6ee-3685-46bc-b152-70100f145e28",
             "colId": "ef19b98a-3ede-411b-af48-a44096cf4950",
-            "containerId": "",
+            "containerId": "4c63f3b1-7979-4fd6-9462-0604e0a0fa7c",
             "name": "Post QR",
             "url": "http://localhost:1313/api/v1/qr",
             "method": "POST",
-            "sortNum": 40000,
+            "sortNum": 30000,
             "created": "2024-09-06T07:24:52.219Z",
-            "modified": "2024-09-06T07:37:13.046Z",
+            "modified": "2024-09-08T16:11:44.129Z",
             "headers": [
                 {
                     "name": "Accept",
@@ -107,20 +164,20 @@
             ],
             "body": {
                 "type": "json",
-                "raw": "{\n\"url\": \"http://www.go.dev\",\n  \"userId\": \"GoLang User\",\n  \"premium\": true\n}",
+                "raw": "{\n  \"url\": \"http://www.go.xxxx\",\n  \"userId\": \"GoLang User\",\n  \"premium\": true,\n  \"id_tag\": \"3\"\n}",
                 "form": []
             }
         },
         {
             "_id": "b92d77ed-b744-4237-8e4b-06d4e55f4d40",
             "colId": "ef19b98a-3ede-411b-af48-a44096cf4950",
-            "containerId": "",
+            "containerId": "4c63f3b1-7979-4fd6-9462-0604e0a0fa7c",
             "name": "Delete QR By Id",
             "url": "http://localhost:1313/api/v1/qr/:id",
             "method": "DELETE",
-            "sortNum": 50000,
+            "sortNum": 40000,
             "created": "2024-09-06T09:17:34.103Z",
-            "modified": "2024-09-06T09:17:34.103Z",
+            "modified": "2024-09-08T18:42:25.145Z",
             "headers": [
                 {
                     "name": "Accept",
@@ -176,5 +233,5 @@
             "baseUrl": "http://www.localhost/api/v1"
         }
     },
-    "ref": "_6-GcKjvBfyCBa40l0C29A9UO1mO9coWzrWeU7FcroTx2YyyMx7jX5552YYEfdY6K3q25cCqN3iCudch4jcEPA"
+    "ref": "_6-GcKjvBfyCBa40l0C29DTZ9WfWQZrdDwjt_wxPaiSRJyeiXLr7TR3AYM9p6BBx56tH2kGzD7XVc0RWP5Ojnw"
 }

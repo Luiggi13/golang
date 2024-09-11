@@ -16,7 +16,7 @@ const (
 	driver = "postgres"
 )
 
-func Connect_db(migration bool, seed bool, clean bool) *sql.DB {
+func Connect_db(migration bool, clean bool) *sql.DB {
 	psqlInfo := fmt.Sprintf("host=%s port=%d user=%s "+
 		"password=%s dbname=%s sslmode=disable",
 		os.Getenv("POSTGRES_HOST"), port, os.Getenv("POSTGRES_USER"), os.Getenv("POSTGRES_PASSWORD"), os.Getenv("POSTGRES_DB"))
@@ -28,14 +28,6 @@ func Connect_db(migration bool, seed bool, clean bool) *sql.DB {
 		err = MakeMigrationStructure(db)
 		if err != nil {
 			fmt.Println("err migration")
-		}
-		defer db.Close()
-	}
-
-	if seed {
-		err = SeedInitialData(db)
-		if err != nil {
-			fmt.Println("err seed")
 		}
 		defer db.Close()
 	}
@@ -58,8 +50,8 @@ func Connect_db(migration bool, seed bool, clean bool) *sql.DB {
 }
 
 func InsertQR(d m.QRStruct) error {
-	db := Connect_db(false, false, false)
-	_, err := db.Exec("INSERT INTO public.qrs (url_text, qr_code, userid,premium,created_at) VALUES($4, $1, $2, $3, now());", d.QrCode, d.User, d.Premium, d.UrlText)
+	db := Connect_db(false, false)
+	_, err := db.Exec("INSERT INTO public.qrs (qr_code, userid, url_text, premium, id_tag, created_at) VALUES($1, $2, $3, $4, $5, now());", d.QrCode, d.UserId, d.UrlText, d.Premium, d.IdTag)
 	if err != nil {
 		log.Fatalln(err)
 		fmt.Println("An error occured")
@@ -69,9 +61,34 @@ func InsertQR(d m.QRStruct) error {
 }
 
 func GetAll(c *fiber.Ctx) *sql.Rows {
-	db := Connect_db(false, false, false)
-	// rows.Scan(&qr.QrCode, &qr.User, &qr.Premium, &qr.UrlText)
-	row, err := db.QueryContext(c.Context(), "select qr_code, userid, premium, url_text from qrs")
+	queryJoin := `
+		SELECT qrs.id, qrs.qr_code, qrs.url_text, qrs.premium, users.name AS user_name, tags.name AS tag_name
+		FROM qrs
+		INNER JOIN tags ON qrs.id_tag = tags.id
+		INNER JOIN users ON qrs.id_user = users.id`
+
+	if c.Params("active") != "all" {
+		queryJoin += " WHERE users.active = true"
+	}
+
+	queryJoin += " ORDER BY qrs.id ASC"
+
+	db := Connect_db(false, false)
+
+	rows, err := db.Query(queryJoin)
+	if err != nil {
+		fmt.Println("An error occurred:", err)
+		return nil
+	}
+
+	return rows
+}
+
+func GetById(c *fiber.Ctx) *sql.Rows {
+	query := fmt.Sprintf("select qrs.id, qrs.qr_code, qrs.userid, qrs.url_text, qrs.premium, tags.name AS tag_name from qrs inner join tags on qrs.id_tag = tags.id where qrs.id =  %s order by qrs.id desc", c.Params("id"))
+
+	db := Connect_db(false, false)
+	row, err := db.QueryContext(c.Context(), query)
 	if err != nil {
 		fmt.Println("An error occured")
 	}
@@ -79,10 +96,21 @@ func GetAll(c *fiber.Ctx) *sql.Rows {
 	return row
 }
 
-func GetById(c *fiber.Ctx) *sql.Rows {
-	query := fmt.Sprintf("select qr_code, userid, premium from qrs WHERE id = %s", c.Params("id"))
-	db := Connect_db(false, false, false)
+func GetTagByIdHandler(c *fiber.Ctx) *sql.Rows {
+	query := fmt.Sprintf("select * from tags WHERE id = '%s'", c.Params("id"))
+	db := Connect_db(false, false)
 	row, err := db.QueryContext(c.Context(), query)
+	if err != nil {
+		fmt.Println("An error occured")
+	}
+
+	return row
+}
+
+func GetAllTagsHandler(c *fiber.Ctx) *sql.Rows {
+	db := Connect_db(false, false)
+	query := "select * from tags order by id asc"
+	row, err := db.Query(query)
 	if err != nil {
 		fmt.Println("An error occured")
 	}
@@ -92,7 +120,7 @@ func GetById(c *fiber.Ctx) *sql.Rows {
 
 func DeleteById(c *fiber.Ctx) (sql.Result, error) {
 	query := fmt.Sprintf("DELETE FROM qrs WHERE id = %s", c.Params("id"))
-	db := Connect_db(false, false, false)
+	db := Connect_db(false, false)
 	deleted, err := db.ExecContext(c.Context(), query)
 	if err != nil {
 		fmt.Println("An error occured")
@@ -102,41 +130,66 @@ func DeleteById(c *fiber.Ctx) (sql.Result, error) {
 	return deleted, nil
 }
 
-func MakeMigrationStructure(db *sql.DB) error {
-	b, err := os.ReadFile("./database/sqls/structure.sql")
+func DeleteTagsById(c *fiber.Ctx) (sql.Result, error) {
+	query := fmt.Sprintf("DELETE FROM tags WHERE id = '%s'", c.Params("id"))
+	db := Connect_db(false, false)
+	deleted, err := db.ExecContext(c.Context(), query)
 	if err != nil {
-		return err
+		fmt.Println("An error occured")
 	}
 
-	rows, err := db.Query(string(b))
-	if err != nil {
-		return err
-	}
-	b2, err := os.ReadFile("./database/sqls/tags.sql")
-	if err != nil {
-		return err
-	}
-
-	rows2, err := db.Query(string(b2))
-	if err != nil {
-		return err
-	}
-	rows.Close()
-	return rows2.Close()
+	defer db.Close()
+	return deleted, nil
 }
 
-func SeedInitialData(db *sql.DB) error {
-	b, err := os.ReadFile("./database/sqls/inserts.sql")
+func PutTagsById(c *fiber.Ctx) (sql.Result, error) {
+	bodyRes := &m.PutTags{}
+	err := c.BodyParser(bodyRes)
 	if err != nil {
-		return err
+		return nil, fmt.Errorf("error parsing body: %v", err)
 	}
 
-	rows, err := db.Query(string(b))
-	if err != nil {
-		return err
+	if bodyRes.TagName == "" {
+		return nil, fmt.Errorf("the 'name' field is required and must not be empty")
+	}
+	if bodyRes.Public == nil {
+		return nil, fmt.Errorf("the 'public' field is required and must not be empty")
+	}
+	query := fmt.Sprintf("UPDATE tags SET name='%s', public=%v WHERE id = '%s'", bodyRes.TagName, bodyRes.Public, c.Params("id"))
+	db := Connect_db(false, false)
+	updatedRow, errQuery := db.ExecContext(c.Context(), query)
+
+	if errQuery != nil {
+		return nil, fmt.Errorf("error updating database: %v", errQuery)
 	}
 
-	return rows.Close()
+	defer db.Close()
+	return updatedRow, nil
+}
+
+func MakeMigrationStructure(db *sql.DB) error {
+	structureSQL, structureSQLError := os.ReadFile("./database/sqls/structure.sql")
+	if structureSQLError != nil {
+		return structureSQLError
+	}
+
+	rowsStructure, rowsStructureError := db.Query(string(structureSQL))
+	if rowsStructureError != nil {
+		return rowsStructureError
+	}
+
+	tagsSql, tagsSqlError := os.ReadFile("./database/sqls/inserts.sql")
+	if tagsSqlError != nil {
+		return tagsSqlError
+	}
+
+	rowsTagsSQL, rowsTagsSQLError := db.Query(string(tagsSql))
+	if rowsTagsSQLError != nil {
+		return rowsTagsSQLError
+	}
+
+	rowsStructure.Close()
+	return rowsTagsSQL.Close()
 }
 
 func CleanTables(db *sql.DB) error {

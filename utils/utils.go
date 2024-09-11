@@ -80,7 +80,7 @@ func Middlewares(app *fiber.App) {
 // If the UserId field in the user struct is nil or its value is an empty string,
 // the function returns false. Otherwise, it returns true.
 func IsUserProvided(user m.QrInput, method string) bool {
-	if user.UserId == nil || *user.UserId == "" {
+	if user.UserId == nil || *user.UserId < 1 {
 		return false
 	}
 	return true

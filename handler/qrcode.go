@@ -27,11 +27,17 @@ func CreateQrCode(c *fiber.Ctx) interface{} {
 	var isPremium = false
 
 	if err := c.BodyParser(&inputUrl); err != nil {
-		return c.Status(fiber.StatusBadRequest).JSON(m.BaseError{Message: "405 Bad Request", Method: c.Method()})
+		return c.Status(fiber.StatusBadRequest).JSON(m.BaseError{
+			Message: "405 Bad Request",
+			Method:  c.Method(),
+		})
 	}
 
 	if !u.IsUserProvided(inputUrl, c.Method()) {
-		return m.BadRequestError(m.BaseError{Message: "Error user", Method: c.Method()})
+		return c.Status(fiber.StatusBadRequest).JSON(m.BaseError{
+			Message: "Error user",
+			Method:  c.Method(),
+		})
 	}
 
 	if inputUrl.Premium != nil {
@@ -40,28 +46,54 @@ func CreateQrCode(c *fiber.Ctx) interface{} {
 
 	myInsert := m.QRStruct{
 		QrCode:  u.GenerateQrCode(inputUrl.URLString),
-		User:    inputUrl.UserId,
-		Premium: isPremium,
+		UserId:  inputUrl.UserId,
 		UrlText: inputUrl.URLString,
+		Premium: isPremium,
+		IdTag:   inputUrl.IdTag,
 	}
+
+	err := db.InsertQR(myInsert)
+	if err != nil {
+		return c.Status(fiber.StatusInternalServerError).JSON(m.BaseError{
+			Message: "Error inserting QR code",
+			Method:  c.Method(),
+		})
+	}
+
 	response := m.QrCodeGenerated{
 		Id:         *inputUrl.UserId,
 		StatusCode: 200,
-		QrCode:     u.GenerateQrCode(inputUrl.URLString),
+		QrCode:     myInsert.QrCode,
 		Premium:    isPremium,
+		TagName:    "",
 	}
-	db.InsertQR(myInsert)
+
+	rows := getTagForPost(c, inputUrl.IdTag)
+	defer rows.Close()
+
+	var qr m.SelectTags
+	if rows.Next() {
+
+		err := rows.Scan(&qr.TagId, &qr.TagName, &qr.Public)
+		if err != nil {
+			return c.Status(fiber.StatusInternalServerError).JSON(m.BaseError{
+				Message: "Error scanning tag result",
+				Method:  c.Method(),
+			})
+		}
+		response.TagName = qr.TagName
+	}
+
 	return response
 }
 
-func GetAllQrCode(c *fiber.Ctx) []m.QRStruct {
-	var qrList []m.QRStruct = []m.QRStruct{}
+func GetAllQrCode(c *fiber.Ctx) []m.QRStructJoin {
+	var qrList []m.QRStructJoin = []m.QRStructJoin{}
 	rows := db.GetAll(c)
 
 	for rows.Next() {
-		var qr m.QRStruct
-
-		rows.Scan(&qr.QrCode, &qr.User, &qr.Premium, &qr.UrlText)
+		var qr m.QRStructJoin
+		rows.Scan(&qr.QrId, &qr.QrCode, &qr.UrlText, &qr.Premium, &qr.UserName, &qr.TagName)
 		qrList = append(qrList, qr)
 	}
 
@@ -69,18 +101,18 @@ func GetAllQrCode(c *fiber.Ctx) []m.QRStruct {
 }
 
 func GetByIdQrCode(c *fiber.Ctx) interface{} {
-	var qr m.QRStruct
+	var qr m.QRStructJoin
 
 	rows := db.GetById(c)
 	for rows.Next() {
-		err := rows.Scan(&qr.User, &qr.QrCode, &qr.Premium)
+		err := rows.Scan(&qr.QrId, &qr.QrCode, &qr.UserName, &qr.UrlText, &qr.Premium, &qr.TagName)
 
 		if err == nil {
 			return qr
 		}
 	}
 
-	return m.NotFound(m.BaseError{Message: "Non-existent user", Method: c.Method()})
+	return m.NotFound(m.BaseError{Message: "Non QR code", Method: c.Method()})
 }
 
 func DeleteQrById(c *fiber.Ctx) interface{} {
