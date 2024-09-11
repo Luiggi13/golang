@@ -1,14 +1,14 @@
 package models
 
 type QrInput struct {
-	URLString string  `json:"url" validate:"required,url"`
-	UserId    *string `json:"userId"`
-	Premium   *bool   `json:"premium"`
-	IdTag     string  `json:"id_tag" validate:"required"`
+	URLString string `json:"url" validate:"required,url"`
+	UserId    *int   `json:"user_id" validate:"required"`
+	Premium   *bool  `json:"premium"`
+	IdTag     string `json:"id_tag" validate:"required"`
 }
 
 type QrCodeGenerated struct {
-	Id         string `json:"id"`
+	Id         int    `json:"id"`
 	StatusCode int64  `json:"status_code"`
 	QrCode     string `json:"qr_code"`
 	Premium    bool   `json:"premium" validate:"required,premium"`
@@ -36,18 +36,18 @@ type Details struct {
 }
 
 type QRStruct struct {
-	QrCode  string  `json:"qr_code"`
-	UserId  *string `json:"userid"`
-	UrlText string  `json:"url_text"`
-	IdTag   string  `json:"id_tag"`
-	Premium bool    `json:"premium"`
+	QrCode  string `json:"qr_code"`
+	UserId  *int   `json:"user_id"`
+	UrlText string `json:"url_text"`
+	IdTag   string `json:"id_tag"`
+	Premium bool   `json:"premium"`
 }
 
 // qrs.id, qrs.qr_code, qrs.userid, qrs.url_text, qrs.premium
 type QRStructJoin struct {
 	QrId    string `json:"id"`
 	QrCode  string `json:"qr_code"`
-	UserId  string `json:"userid"`
+	UserId  string `json:"user_id"`
 	UrlText string `json:"url_text"`
 	Premium bool   `json:"premium"`
 	TagName string `json:"tag_name"`

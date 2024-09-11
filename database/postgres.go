@@ -62,7 +62,7 @@ func InsertQR(d m.QRStruct) error {
 
 func GetAll(c *fiber.Ctx) *sql.Rows {
 	db := Connect_db(false, false)
-	queryJoin := "select qrs.id, qrs.qr_code, qrs.userid, qrs.url_text, qrs.premium, tags.name AS tag_name from qrs left join tags on qrs.id_tag = tags.id order by qrs.id asc"
+	queryJoin := "select qrs.id, qrs.qr_code, qrs.id_user, qrs.url_text, qrs.premium, tags.name AS tag_name from qrs inner join tags on qrs.id_tag = tags.id order by qrs.id asc"
 	row, err := db.Query(queryJoin)
 	if err != nil {
 		fmt.Println("An error occured")
@@ -72,7 +72,7 @@ func GetAll(c *fiber.Ctx) *sql.Rows {
 }
 
 func GetById(c *fiber.Ctx) *sql.Rows {
-	query := fmt.Sprintf("select qrs.id, qrs.qr_code, qrs.userid, qrs.url_text, qrs.premium, tags.name AS tag_name from qrs left join tags on qrs.id_tag = tags.id where qrs.id =  %s order by qrs.id desc", c.Params("id"))
+	query := fmt.Sprintf("select qrs.id, qrs.qr_code, qrs.userid, qrs.url_text, qrs.premium, tags.name AS tag_name from qrs inner join tags on qrs.id_tag = tags.id where qrs.id =  %s order by qrs.id desc", c.Params("id"))
 
 	db := Connect_db(false, false)
 	row, err := db.QueryContext(c.Context(), query)
@@ -93,6 +93,7 @@ func GetTagByIdHandler(c *fiber.Ctx) *sql.Rows {
 
 	return row
 }
+
 func GetAllTagsHandler(c *fiber.Ctx) *sql.Rows {
 	db := Connect_db(false, false)
 	query := "select * from tags order by id asc"
