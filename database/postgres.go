@@ -61,14 +61,27 @@ func InsertQR(d m.QRStruct) error {
 }
 
 func GetAll(c *fiber.Ctx) *sql.Rows {
-	db := Connect_db(false, false)
-	queryJoin := "SELECT qrs.id, qrs.qr_code, qrs.url_text, qrs.premium, users.name AS user_name, tags.name AS tag_name FROM qrs INNER JOIN tags ON qrs.id_tag = tags.id INNER JOIN users ON qrs.id_user = users.id where users.active = true ORDER BY qrs.id ASC;"
-	row, err := db.Query(queryJoin)
-	if err != nil {
-		fmt.Println("An error occured")
+	queryJoin := `
+		SELECT qrs.id, qrs.qr_code, qrs.url_text, qrs.premium, users.name AS user_name, tags.name AS tag_name
+		FROM qrs
+		INNER JOIN tags ON qrs.id_tag = tags.id
+		INNER JOIN users ON qrs.id_user = users.id`
+
+	if c.Params("active") != "all" {
+		queryJoin += " WHERE users.active = true"
 	}
 
-	return row
+	queryJoin += " ORDER BY qrs.id ASC"
+
+	db := Connect_db(false, false)
+
+	rows, err := db.Query(queryJoin)
+	if err != nil {
+		fmt.Println("An error occurred:", err)
+		return nil
+	}
+
+	return rows
 }
 
 func GetById(c *fiber.Ctx) *sql.Rows {

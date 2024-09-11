@@ -28,6 +28,7 @@ func CreateRoutes(app *fiber.App) {
 
 	qrCodeRoutes := v1.Group("/qr", logger.New())
 	qrCodeRoutes.Get("/", getAllQr)
+	qrCodeRoutes.Get("/:active", getAllQr)
 	qrCodeRoutes.Get("/:id", getQrById)
 	qrCodeRoutes.Post("/", createQr)
 	qrCodeRoutes.Delete("/:id", deleteQrById)
